@@ -5,6 +5,7 @@ import android.os.Bundle
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.graphics.*
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.daltowacja.daltowacja.databinding.ActivityMainBinding
@@ -17,9 +18,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
-import java.nio.ByteBuffer
+import java.io.ByteArrayOutputStream
 
-typealias LumaListener = (luma: Double) -> Unit
+typealias ColorListener = (color: String) -> Unit
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
@@ -55,11 +56,13 @@ class MainActivity : AppCompatActivity() {
                     it.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
                 }
 
+            // Image analysis
             val imageAnalyzer = ImageAnalysis.Builder()
+                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 .also {
-                    it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
-                        Log.d(TAG, "Average luminosity: $luma")
+                    it.setAnalyzer(cameraExecutor, ColorAnalyzer { color ->
+                        Log.d(TAG, "Average color: $color")
                     })
                 }
 
@@ -109,28 +112,64 @@ class MainActivity : AppCompatActivity() {
         cameraExecutor.shutdown()
     }
 
-    private class LuminosityAnalyzer(private val listener: LumaListener) : ImageAnalysis.Analyzer {
-
-        private fun ByteBuffer.toByteArray(): ByteArray {
-            rewind()    // Rewind the buffer to zero
-            val data = ByteArray(remaining())
-            get(data)   // Copy the buffer into a byte array
-            return data // Return the byte array
-        }
-
+    private class ColorAnalyzer(private val listener: ColorListener) : ImageAnalysis.Analyzer {
         override fun analyze(image: ImageProxy) {
+            // val rotationDegrees = image.imageInfo.rotationDegrees
 
-            val buffer = image.planes[0].buffer
-            val data = buffer.toByteArray()
-            val pixels = data.map { it.toInt() and 0xFF }
-            val luma = pixels.average()
+            // Creating bitmap of the current preview frame
+            val bitmap = image.toBitmap()
 
-            listener(luma)
+            // Cropping bitmap to the centre
+            val croppedBitmap = Bitmap.createBitmap(
+                bitmap,
+                bitmap.width / 4,
+                bitmap.height / 4,
+                bitmap.width / 2,
+                bitmap.height / 2
+            )
+
+            // Get the colour value using cropped bitmap and getPixel method
+            val color = croppedBitmap.getPixel(croppedBitmap.width / 2, croppedBitmap.height / 2)
+
+            // Return the colour value in RGB to the listener
+            listener(intToRgb(color))
 
             image.close()
         }
+
+        // Transforming preview frame into bitmap
+        private fun ImageProxy.toBitmap(): Bitmap {
+            val yBuffer = planes[0].buffer // Y
+            val uBuffer = planes[1].buffer // U
+            val vBuffer = planes[2].buffer // V
+
+            val ySize = yBuffer.remaining()
+            val uSize = uBuffer.remaining()
+            val vSize = vBuffer.remaining()
+
+            val nv21 = ByteArray(ySize + uSize + vSize)
+
+            yBuffer.get(nv21, 0, ySize)
+            vBuffer.get(nv21, ySize, vSize)
+            uBuffer.get(nv21, ySize + vSize, uSize)
+
+            val yuvImage = YuvImage(nv21, ImageFormat.NV21, width, height, null)
+            val out = ByteArrayOutputStream()
+            yuvImage.compressToJpeg(Rect(0, 0, yuvImage.width, yuvImage.height), 50, out)
+            val imageBytes = out.toByteArray()
+            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+        }
+
+        // Changing 8 bit integer representing colour into RGB value (string)
+        private fun intToRgb(color: Int): String {
+            val red = color shr 16 and 0xFF
+            val green = color shr 8 and 0xFF
+            val blue = color and 0xFF
+            return "RGB($red, $green, $blue)"
+        }
     }
 
+    // Basic static variables
     companion object {
         private const val TAG = "Daltowacja"
         private const val REQUEST_CODE_PERMISSIONS = 10
