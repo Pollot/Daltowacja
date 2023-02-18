@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var cameraExecutor: ExecutorService
 
+    private var colorAnalyzer: ColorAnalyzer? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -40,6 +42,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
+
+        viewBinding.analyzeColorButton.setOnClickListener {
+            colorAnalyzer?.analyzeColor = true
+        }
     }
 
     private fun startCamera() {
@@ -49,6 +55,9 @@ class MainActivity : AppCompatActivity() {
             // Used to bind the lifecycle of cameras to the lifecycle owner
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
 
+            // Select back camera as a default
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
             // Preview
             val preview = Preview.Builder()
                 .build()
@@ -57,17 +66,15 @@ class MainActivity : AppCompatActivity() {
                 }
 
             // Image analysis
+            colorAnalyzer = ColorAnalyzer { color ->
+                Log.d(TAG, "Average color: $color")
+            }
             val imageAnalyzer = ImageAnalysis.Builder()
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 .also {
-                    it.setAnalyzer(cameraExecutor, ColorAnalyzer { color ->
-                        Log.d(TAG, "Average color: $color")
-                    })
+                    it.setAnalyzer(cameraExecutor, colorAnalyzer!!)
                 }
-
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
                 // Unbind use cases before rebinding
@@ -76,7 +83,6 @@ class MainActivity : AppCompatActivity() {
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
                     this, cameraSelector, preview, imageAnalyzer)
-
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
@@ -113,27 +119,32 @@ class MainActivity : AppCompatActivity() {
     }
 
     private class ColorAnalyzer(private val listener: ColorListener) : ImageAnalysis.Analyzer {
+        var analyzeColor = false
+
         override fun analyze(image: ImageProxy) {
-            // val rotationDegrees = image.imageInfo.rotationDegrees
+            if (analyzeColor) {
+                // Creating bitmap of the current preview frame
+                val bitmap = image.toBitmap()
 
-            // Creating bitmap of the current preview frame
-            val bitmap = image.toBitmap()
+                // Cropping bitmap to the centre
+                val croppedBitmap = Bitmap.createBitmap(
+                    bitmap,
+                    bitmap.width / 4,
+                    bitmap.height / 4,
+                    bitmap.width / 2,
+                    bitmap.height / 2
+                )
 
-            // Cropping bitmap to the centre
-            val croppedBitmap = Bitmap.createBitmap(
-                bitmap,
-                bitmap.width / 4,
-                bitmap.height / 4,
-                bitmap.width / 2,
-                bitmap.height / 2
-            )
+                // Get the colour value using cropped bitmap and getPixel method
+                val color =
+                    croppedBitmap.getPixel(croppedBitmap.width / 2, croppedBitmap.height / 2)
 
-            // Get the colour value using cropped bitmap and getPixel method
-            val color = croppedBitmap.getPixel(croppedBitmap.width / 2, croppedBitmap.height / 2)
+                // Reset button value
+                analyzeColor = false
 
-            // Return the colour value in RGB to the listener
-            listener(intToRgb(color))
-
+                // Return the colour value in RGB to the listener
+                listener(intToRgb(color))
+            }
             image.close()
         }
 
