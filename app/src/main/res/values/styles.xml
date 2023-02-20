@@ -1,3 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <style name="button_style" parent="Widget.AppCompat.Button">
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:backgroundTint">@color/black</item>
+    </style>
+
 </resources>
