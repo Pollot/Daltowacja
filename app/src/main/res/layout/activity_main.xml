@@ -21,30 +21,32 @@
     <RelativeLayout
         android:id="@+id/colorNameLayout"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/blue_green"
-        android:paddingStart="15dp"
-        tools:ignore="RtlSymmetry">
-
-        <TextView
-            android:id="@+id/colorName"
-            android:layout_width="match_parent"
-            android:layout_marginTop="5dp"
-            android:layout_height="40dp"
-            android:text="@string/color_name"
-            android:textColor="@color/white"
-            android:textSize="25sp" />
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@color/blue_green">
 
         <TextView
             android:id="@+id/colorDescription"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginTop="45dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/color_description"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_below="@id/colorName" />
+
+        <TextView
+            android:id="@+id/colorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:text="@string/color_name"
+            android:textColor="@color/white"
+            android:textSize="24sp" />
 
     </RelativeLayout>
 
@@ -53,19 +55,17 @@
         android:id="@+id/buttonsLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="100dp"
-        android:gravity="center"
-        android:layout_alignParentTop="@+id/colorNameLayout">
+        android:layout_marginBottom="20dp"
+        android:layout_above="@id/colorNameLayout">
 
         <Button
             android:id="@+id/freezeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
             android:text="@string/freeze"
-            style="@style/button_style" />
+            style="@style/button_style"
+            android:layout_marginEnd="40dp" />
 
         <Button
             android:id="@+id/analyzeColorButton"
