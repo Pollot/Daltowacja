@@ -5,4 +5,5 @@
     <string name="color_name">Color name</string>
     <string name="color_description">Color description</string>
     <string name="frozen_image_description">Frozen image</string>
+    <string name="centre_pointer">Centre pointer</string>
 </resources>
