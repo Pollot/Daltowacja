@@ -2,7 +2,6 @@ package com.daltowacja.daltowacja
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
@@ -19,9 +18,11 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.camera.view.PreviewView
+import kotlin.math.sqrt
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
@@ -41,8 +42,10 @@ class MainActivity : AppCompatActivity() {
             val frozenButton = findViewById<Button>(R.id.freezeButton)
             val analyzeColorButton = findViewById<Button>(R.id.analyzeColorButton)
             val colorName = findViewById<TextView>(R.id.colorName)
+            val colorDescription = findViewById<TextView>(R.id.colorDescription)
+            val coloredRectangle = findViewById<RelativeLayout>(R.id.colorNameLayout)
             setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton)
-            captureFrame(previewView, colorName, analyzeColorButton)
+            captureFrame(previewView, colorName, colorDescription, coloredRectangle, analyzeColorButton)
         } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
@@ -105,8 +108,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun getEuclideanDistance(rgb1: IntArray, rgb2: IntArray): Double {
+        val rDiff = (rgb1[0] - rgb2[0]).toDouble()
+        val gDiff = (rgb1[1] - rgb2[1]).toDouble()
+        val bDiff = (rgb1[2] - rgb2[2]).toDouble()
+        return sqrt(rDiff * rDiff + gDiff * gDiff + bDiff * bDiff)
+    }
+
+    private fun getClosestColorNameAndDescription(rgb: IntArray): List<String> {
+        var minDistance = Double.MAX_VALUE
+        var nameDesc = listOf<String>()
+
+        for ((colorRgb, colorInfo) in advancedColors) {
+            val distance = getEuclideanDistance(rgb, colorRgb)
+            if (distance < minDistance) {
+                minDistance = distance
+                nameDesc = colorInfo
+            }
+        }
+
+        return nameDesc
+    }
+
     @SuppressLint("SetTextI18n")
-    private fun captureFrame(previewView: PreviewView, text: TextView, button: Button) {
+    private fun captureFrame(previewView: PreviewView, name: TextView, description: TextView, coloredRectangle: RelativeLayout, button: Button) {
         button.setOnClickListener {
             // Capture the current frame as a Bitmap
             val image = previewView.bitmap
@@ -140,8 +165,56 @@ class MainActivity : AppCompatActivity() {
             }
 
             // Set the text to the average color
-            text.text = "RGB: (" + (red and 0xFF).toString() + ", " + (green and 0xFF).toString() + ", " + (blue and 0xFF).toString() + ")"
+            red = red and 0xFF
+            green = green and 0xFF
+            blue = blue and 0xFF
+
+            val nameDesc = getClosestColorNameAndDescription(intArrayOf(red, green, blue))
+            name.text = nameDesc[0]
+            description.text = nameDesc[1]
+
+            if((red+green+blue)>383) {
+                name.setTextColor(Color.BLACK)
+                description.setTextColor(Color.BLACK)
+            } else {
+                name.setTextColor(Color.WHITE)
+                description.setTextColor(Color.WHITE)
+            }
+
+            //translates rgb to hsv then to hsv int and changes color of colorRectangle
+            coloredRectangle.setBackgroundColor(Color.HSVToColor(rgbToHsv(red, green, blue)))
         }
+    }
+
+    private fun rgbToHsv(red: Int, green: Int, blue: Int): FloatArray {
+        val r = red / 255.0f
+        val g = green / 255.0f
+        val b = blue / 255.0f
+        val cmax = maxOf(r, g, b)
+        val cmin = minOf(r, g, b)
+        val delta = cmax - cmin
+
+        var h: Float = if (delta == 0.0f) {
+            0.0f
+        } else if (cmax == r) {
+            ((g - b) / delta) % 6.0f
+        } else if (cmax == g) {
+            (b - r) / delta + 2.0f
+        } else {
+            (r - g) / delta + 4.0f
+        }
+
+        h = (h / 6.0f) * 360.0f
+
+        val s: Float = if (cmax == 0.0f) {
+            0.0f
+        } else {
+            delta / cmax
+        }
+
+        val v: Float = cmax
+
+        return floatArrayOf(h, s, v)
     }
 
     // frozenButton functionality
