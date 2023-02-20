@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.*
 import androidx.core.app.ActivityCompat
@@ -15,20 +16,19 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.core.Preview
 import androidx.camera.core.CameraSelector
 import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageProxy
-import java.io.ByteArrayOutputStream
-
-typealias ColorListener = (color: String) -> Unit
+import androidx.camera.view.PreviewView
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
 
     private lateinit var cameraExecutor: ExecutorService
 
-    private var colorAnalyzer: ColorAnalyzer? = null
-
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -36,16 +36,19 @@ class MainActivity : AppCompatActivity() {
 
         if (allPermissionsGranted()) {
             startCamera()
+            val previewView = findViewById<PreviewView>(R.id.viewFinder)
+            val frozenFrame = findViewById<ImageView>(R.id.frozenFrame)
+            val frozenButton = findViewById<Button>(R.id.freezeButton)
+            val analyzeColorButton = findViewById<Button>(R.id.analyzeColorButton)
+            val colorName = findViewById<TextView>(R.id.colorName)
+            setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton)
+            captureFrame(previewView, colorName, analyzeColorButton)
         } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
-
-        viewBinding.analyzeColorButton.setOnClickListener {
-            colorAnalyzer?.analyzeColor = true
-        }
     }
 
     private fun startCamera() {
@@ -65,24 +68,13 @@ class MainActivity : AppCompatActivity() {
                     it.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
                 }
 
-            // Image analysis
-            colorAnalyzer = ColorAnalyzer { color ->
-                Log.d(TAG, "Average color: $color")
-            }
-            val imageAnalyzer = ImageAnalysis.Builder()
-                .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
-                .build()
-                .also {
-                    it.setAnalyzer(cameraExecutor, colorAnalyzer!!)
-                }
-
             try {
                 // Unbind use cases before rebinding
                 cameraProvider.unbindAll()
 
-                // Bind use cases to camera
+                // Bind use case to camera
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageAnalyzer)
+                    this, cameraSelector, preview)
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
@@ -113,71 +105,59 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    private fun captureFrame(previewView: PreviewView, text: TextView, button: Button) {
+        button.setOnClickListener {
+            // Capture the current frame as a Bitmap
+            val image = previewView.bitmap
+
+            val middleX = image!!.width / 2
+            val middleY = image.height / 2
+
+            // Get the middle pixel
+            val pixel = image.getPixel(middleX, middleY)
+            val red = Color.red(pixel)
+            val green = Color.green(pixel)
+            val blue = Color.blue(pixel)
+
+            // Calculate the average color of the middle pixel -> for later
+            // val averageColor = Color.rgb((red + green + blue) / 3, (red + green + blue) / 3, (red + green + blue) / 3)
+
+            text.text = "RGB: (" + (red and 0xFF).toString() + ", " + (green and 0xFF).toString() + ", " + (blue and 0xFF).toString() + ")"
+        }
+    }
+
+    // frozenButton functionality
+    @SuppressLint("SetTextI18n")
+    private fun setPreviewViewFreezeOnClick(previewView: PreviewView, frozenFrame: ImageView, button: Button) {
+        button.setOnClickListener {
+            if (previewView.visibility == View.VISIBLE) {
+                button.text = "unfreeze"
+                val bitmap = previewView.bitmap
+                frozenFrame.setImageBitmap(bitmap)
+                previewView.visibility = View.GONE
+                frozenFrame.visibility = View.VISIBLE
+            } else {
+                button.text = "freeze"
+                previewView.visibility = View.VISIBLE
+                frozenFrame.visibility = View.GONE
+            }
+        }
+    }
+
+    /* Hide or show buttons when clicked on screen -> for later
+    private fun toggleButtonsOnClick(view: View, vararg buttons: Button) {
+        view.setOnClickListener {
+            for (button in buttons) {
+                button.visibility = if (button.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+            }
+        }
+    }*/
+
+    // Called when an activity is about to be destroyed
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
-    }
-
-    private class ColorAnalyzer(private val listener: ColorListener) : ImageAnalysis.Analyzer {
-        var analyzeColor = false
-
-        override fun analyze(image: ImageProxy) {
-            if (analyzeColor) {
-                // Creating bitmap of the current preview frame
-                val bitmap = image.toBitmap()
-
-                // Cropping bitmap to the centre
-                val croppedBitmap = Bitmap.createBitmap(
-                    bitmap,
-                    bitmap.width / 4,
-                    bitmap.height / 4,
-                    bitmap.width / 2,
-                    bitmap.height / 2
-                )
-
-                // Get the colour value using cropped bitmap and getPixel method
-                val color =
-                    croppedBitmap.getPixel(croppedBitmap.width / 2, croppedBitmap.height / 2)
-
-                // Reset button value
-                analyzeColor = false
-
-                // Return the colour value in RGB to the listener
-                listener(intToRgb(color))
-            }
-            image.close()
-        }
-
-        // Transforming preview frame into bitmap
-        private fun ImageProxy.toBitmap(): Bitmap {
-            val yBuffer = planes[0].buffer // Y
-            val uBuffer = planes[1].buffer // U
-            val vBuffer = planes[2].buffer // V
-
-            val ySize = yBuffer.remaining()
-            val uSize = uBuffer.remaining()
-            val vSize = vBuffer.remaining()
-
-            val nv21 = ByteArray(ySize + uSize + vSize)
-
-            yBuffer.get(nv21, 0, ySize)
-            vBuffer.get(nv21, ySize, vSize)
-            uBuffer.get(nv21, ySize + vSize, uSize)
-
-            val yuvImage = YuvImage(nv21, ImageFormat.NV21, width, height, null)
-            val out = ByteArrayOutputStream()
-            yuvImage.compressToJpeg(Rect(0, 0, yuvImage.width, yuvImage.height), 50, out)
-            val imageBytes = out.toByteArray()
-            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-        }
-
-        // Changing 8 bit integer representing colour into RGB value (string)
-        private fun intToRgb(color: Int): String {
-            val red = color shr 16 and 0xFF
-            val green = color shr 8 and 0xFF
-            val blue = color and 0xFF
-            return "RGB($red, $green, $blue)"
-        }
     }
 
     // Basic static variables
