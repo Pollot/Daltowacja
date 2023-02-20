@@ -114,15 +114,32 @@ class MainActivity : AppCompatActivity() {
             val middleX = image!!.width / 2
             val middleY = image.height / 2
 
-            // Get the middle pixel
-            val pixel = image.getPixel(middleX, middleY)
-            val red = Color.red(pixel)
-            val green = Color.green(pixel)
-            val blue = Color.blue(pixel)
+            // Define a rectangle that covers the middle area, in this case 21x21 pixels
+            val rect = Rect(middleX - 10, middleY - 10, middleX + 10, middleY + 10)
 
-            // Calculate the average color of the middle pixel -> for later
-            // val averageColor = Color.rgb((red + green + blue) / 3, (red + green + blue) / 3, (red + green + blue) / 3)
+            // Calculate the average color of the middle area
+            var red = 0
+            var green = 0
+            var blue = 0
+            var count = 0
 
+            for (y in rect.top until rect.bottom) {
+                for (x in rect.left until rect.right) {
+                    val pixel = image.getPixel(x, y)
+                    red += Color.red(pixel)
+                    green += Color.green(pixel)
+                    blue += Color.blue(pixel)
+                    count++
+                }
+            }
+
+            if (count > 0) {
+                red /= count
+                green /= count
+                blue /= count
+            }
+
+            // Set the text to the average color
             text.text = "RGB: (" + (red and 0xFF).toString() + ", " + (green and 0xFF).toString() + ", " + (blue and 0xFF).toString() + ")"
         }
     }
