@@ -92,11 +92,11 @@ class MainActivity : AppCompatActivity() {
                         is changed only once and not continuously
                         */
                         runOnUiThread {
-                            if (luma >= 100 && pointerBlack.visibility == View.GONE) {
+                            if (luma >= 80 && pointerBlack.visibility == View.GONE) {
                                 pointerWhite.visibility = View.GONE
                                 pointerBlack.visibility = View.VISIBLE
                             } else {
-                                if (luma < 100 && pointerWhite.visibility == View.GONE) {
+                                if (luma < 80 && pointerWhite.visibility == View.GONE) {
                                     pointerBlack.visibility = View.GONE
                                     pointerWhite.visibility = View.VISIBLE
                                 }
