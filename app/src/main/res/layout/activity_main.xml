@@ -16,6 +16,7 @@
 
         <ImageView
             android:id="@+id/pointerBlack"
+            android:visibility="gone"
             android:layout_width="60px"
             android:layout_height="60px"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,6 +30,7 @@
 
         <ImageView
             android:id="@+id/pointerWhite"
+            android:visibility="gone"
             android:layout_width="60px"
             android:layout_height="60px"
             app:layout_constraintStart_toStartOf="parent"

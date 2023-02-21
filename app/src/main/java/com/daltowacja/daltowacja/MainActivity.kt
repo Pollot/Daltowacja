@@ -40,15 +40,16 @@ class MainActivity : AppCompatActivity() {
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
+        val previewView = findViewById<PreviewView>(R.id.viewFinder)
+        val frozenFrame = findViewById<ImageView>(R.id.frozenFrame)
+        val frozenButton = findViewById<Button>(R.id.freezeButton)
+        val analyzeColorButton = findViewById<Button>(R.id.analyzeColorButton)
+        val colorName = findViewById<TextView>(R.id.colorName)
+        val colorDescription = findViewById<TextView>(R.id.colorDescription)
+        val coloredRectangle = findViewById<RelativeLayout>(R.id.colorNameLayout)
+
         if (allPermissionsGranted()) {
             startCamera()
-            val previewView = findViewById<PreviewView>(R.id.viewFinder)
-            val frozenFrame = findViewById<ImageView>(R.id.frozenFrame)
-            val frozenButton = findViewById<Button>(R.id.freezeButton)
-            val analyzeColorButton = findViewById<Button>(R.id.analyzeColorButton)
-            val colorName = findViewById<TextView>(R.id.colorName)
-            val colorDescription = findViewById<TextView>(R.id.colorDescription)
-            val coloredRectangle = findViewById<RelativeLayout>(R.id.colorNameLayout)
             setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton)
             captureFrame(previewView, colorName, colorDescription, coloredRectangle, analyzeColorButton)
         } else {
@@ -76,12 +77,31 @@ class MainActivity : AppCompatActivity() {
                     it.setSurfaceProvider(viewBinding.viewFinder.surfaceProvider)
                 }
 
+            // Pointers
+            val pointerBlack = findViewById<View>(R.id.pointerBlack)
+            val pointerWhite = findViewById<View>(R.id.pointerWhite)
+
             // Image analysis use case - luminance analyzer for pointer
             val imageAnalyzer = ImageAnalysis.Builder()
                 .build()
                 .also {
                     it.setAnalyzer(cameraExecutor, LuminosityAnalyzer { luma ->
-                        Log.d(TAG, "Average luminosity: $luma")
+                        // Log.d(TAG, "Avg luminosity: $luma")
+                        /*
+                        These instructions make sure that the visibility parameter
+                        is changed only once and not continuously
+                        */
+                        runOnUiThread {
+                            if (luma >= 100 && pointerBlack.visibility == View.GONE) {
+                                pointerWhite.visibility = View.GONE
+                                pointerBlack.visibility = View.VISIBLE
+                            } else {
+                                if (luma < 100 && pointerWhite.visibility == View.GONE) {
+                                    pointerBlack.visibility = View.GONE
+                                    pointerWhite.visibility = View.VISIBLE
+                                }
+                            }
+                        }
                     })
                 }
 
@@ -264,6 +284,7 @@ class MainActivity : AppCompatActivity() {
         cameraExecutor.shutdown()
     }
 
+    // Analyzer of the average preview luminosity
     private class LuminosityAnalyzer(private val listener: LumaListener) : ImageAnalysis.Analyzer {
 
         private fun ByteBuffer.toByteArray(): ByteArray {
