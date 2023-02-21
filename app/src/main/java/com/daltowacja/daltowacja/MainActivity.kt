@@ -139,8 +139,8 @@ class MainActivity : AppCompatActivity() {
             val middleX = image!!.width / 2
             val middleY = image.height / 2
 
-            // Define a rectangle that covers the middle area, in this case 21x21 pixels
-            val rect = Rect(middleX - 10, middleY - 10, middleX + 10, middleY + 10)
+            // Define a rectangle that covers the middle area, 49x49 pixels by default
+            val rect = Rect(middleX - 24, middleY - 24, middleX + 24, middleY + 24)
 
             // Calculate the average color of the middle area
             var red = 0
