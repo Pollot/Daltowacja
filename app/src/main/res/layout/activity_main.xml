@@ -15,7 +15,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/centerPointer"
+            android:id="@+id/pointerBlack"
             android:layout_width="60px"
             android:layout_height="60px"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,7 +25,20 @@
             app:layout_constraintVertical_bias="0.5"
             app:layout_constraintHorizontal_bias="0.5"
             android:contentDescription="@string/center_pointer"
-            android:src="@drawable/pointer" />
+            android:src="@drawable/pointer_black" />
+
+        <ImageView
+            android:id="@+id/pointerWhite"
+            android:layout_width="60px"
+            android:layout_height="60px"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintHorizontal_bias="0.5"
+            android:contentDescription="@string/center_pointer"
+            android:src="@drawable/pointer_white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
