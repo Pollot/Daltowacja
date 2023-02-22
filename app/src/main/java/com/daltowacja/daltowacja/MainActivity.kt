@@ -43,6 +43,8 @@ class MainActivity : AppCompatActivity() {
         // Set custom toolbar
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
+        // Disable application name in the toolbar
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val previewView = findViewById<PreviewView>(R.id.viewFinder)
         val frozenFrame = findViewById<ImageView>(R.id.frozenFrame)
