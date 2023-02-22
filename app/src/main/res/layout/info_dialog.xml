@@ -3,12 +3,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorPrimaryVariant"
     android:padding="20dp">
 
     <TextView
         android:id="@+id/info_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/info_description" />
+        android:text="@string/info_description"
+        android:textColor="@color/white" />
 
 </LinearLayout>

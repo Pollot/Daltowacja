@@ -299,8 +299,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         infoButton.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
+            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
             builder.setView(R.layout.info_dialog)
+            builder.setCancelable(true)
             builder.setPositiveButton(android.R.string.ok, null)
             builder.create().show()
         }
