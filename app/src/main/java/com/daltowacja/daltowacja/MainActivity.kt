@@ -16,16 +16,11 @@ import androidx.camera.core.Preview
 import androidx.camera.core.CameraSelector
 import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import androidx.camera.view.PreviewView
 import kotlin.math.sqrt
-import androidx.appcompat.widget.Toolbar
 
 typealias LumaListener = (luma: Double) -> Unit
 
@@ -40,9 +35,6 @@ class MainActivity : AppCompatActivity() {
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 
-        // Set custom toolbar
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
         // Disable application name in the toolbar
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
@@ -53,11 +45,20 @@ class MainActivity : AppCompatActivity() {
         val colorName = findViewById<TextView>(R.id.colorName)
         val colorDescription = findViewById<TextView>(R.id.colorDescription)
         val coloredRectangle = findViewById<RelativeLayout>(R.id.colorNameLayout)
+        val pointerWhite = findViewById<ImageView>(R.id.pointerWhite)
+        val pointerBlack = findViewById<ImageView>(R.id.pointerBlack)
+        val pointerSizeSlider = findViewById<SeekBar>(R.id.pointerSizeSlider)
+        val menuIcon = findViewById<ImageView>(R.id.menuIcon)
+        val menuLayout = findViewById<RelativeLayout>(R.id.menuLayout)
+        val infoIcon = findViewById<ImageView>(R.id.infoIcon)
+        val infoLayout = findViewById<LinearLayout>(R.id.infoLayout)
 
         if (allPermissionsGranted()) {
             startCamera()
             setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton)
             captureFrame(previewView, colorName, colorDescription, coloredRectangle, analyzeColorButton)
+            changePointerSize(pointerSizeSlider, pointerWhite, pointerBlack)
+            toggleMenuOrInfoOnClick(menuIcon, infoIcon, infoLayout, menuLayout)
         } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
@@ -179,8 +180,11 @@ class MainActivity : AppCompatActivity() {
             val middleX = image!!.width / 2
             val middleY = image.height / 2
 
-            // Define a rectangle that covers the middle area, 49x49 pixels by default
-            val rect = Rect(middleX - 24, middleY - 24, middleX + 24, middleY + 24)
+            val sliderPosition = findViewById<SeekBar>(R.id.pointerSizeSlider)
+            val searchedAreaSize = (sliderPosition.progress/2)+1 // Add ceil function instead of +1 for 0 value
+
+            // !!CHECK IF CORRECT!! Define a rectangle that covers the middle area, size dynamically set by Slidebar
+            val rect = Rect(middleX - searchedAreaSize, middleY - searchedAreaSize, middleX + searchedAreaSize, middleY + searchedAreaSize)
 
             // Calculate the average color of the middle area
             var red = 0
@@ -275,14 +279,56 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /* Hide or show buttons when clicked on screen -> for later
-    private fun toggleButtonsOnClick(view: View, vararg buttons: Button) {
-        view.setOnClickListener {
-            for (button in buttons) {
-                button.visibility = if (button.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+    private fun toggleMenuOrInfoOnClick(menuIcon: ImageView, infoIcon: ImageView, infoLayout: LinearLayout, menuLayout: RelativeLayout) {
+        menuIcon.setOnClickListener {
+            if(menuLayout.visibility == View.VISIBLE) {
+                menuIcon.setImageResource(R.drawable.menu_white)
+                menuLayout.visibility = View.GONE
+            } else {
+                menuIcon.setImageResource(R.drawable.menu_selected)
+                menuLayout.visibility = View.VISIBLE
+                infoLayout.visibility = View.GONE
+                infoIcon.setImageResource(R.drawable.info_white)
             }
         }
-    }*/
+        infoIcon.setOnClickListener {
+            if(infoLayout.visibility == View.VISIBLE) {
+                infoIcon.setImageResource(R.drawable.info_white)
+                infoLayout.visibility = View.GONE
+            } else {
+                infoIcon.setImageResource(R.drawable.info_white_selected)
+                infoLayout.visibility = View.VISIBLE
+                menuLayout.visibility = View.GONE
+                menuIcon.setImageResource(R.drawable.menu_white)
+            }
+        }
+    }
+
+    private fun changePointerSize(pointerSizeSlider: SeekBar, pointerWhite: ImageView, pointerBlack: ImageView) {
+        pointerSizeSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                // This method will be called whenever the slider value changes
+                // You can use the "progress" parameter to get the current slider value
+                // and update your UI or perform any other actions as needed
+                val paramsW = pointerWhite.layoutParams
+                paramsW.width = pointerSizeSlider.progress+12 // Set the new width in pixels
+                paramsW.height = pointerSizeSlider.progress+12
+                pointerWhite.layoutParams = paramsW
+                val paramsB = pointerBlack.layoutParams
+                paramsB.width = pointerSizeSlider.progress+12 // Set the new width in pixels
+                paramsB.height = pointerSizeSlider.progress+12
+                pointerBlack.layoutParams = paramsB
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                // This method will be called when the user starts dragging the slider
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                // This method will be called when the user stops dragging the slider
+            }
+        })
+    }
 
     // Called when an activity is about to be destroyed
     override fun onDestroy() {
