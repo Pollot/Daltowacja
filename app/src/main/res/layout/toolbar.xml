@@ -1,8 +1,117 @@
-<androidx.appcompat.widget.Toolbar
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:background="?attr/colorPrimary">
+    android:layout_height="match_parent"
+    android:gravity="top">
 
-</androidx.appcompat.widget.Toolbar>
+    <LinearLayout
+        android:id="@+id/infoLayout"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_alignParentBottom="true"
+        android:background="#292929"
+        android:padding="20dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/daltowacja"
+            android:textColor="#FFF"
+            android:layout_marginTop="20dp"
+            android:textSize="30sp">
+        </TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/info_description"
+            android:textColor="#FFF">
+        </TextView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#1a1a1a"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+
+        <ImageView
+            android:id="@+id/menuIcon"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/menu_white"
+            android:contentDescription="@string/expandable_menu">
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/infoIcon"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="296dp"
+            android:src="@drawable/info_white"
+            android:contentDescription="@string/info_about_appication">
+        </ImageView>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/menuLayout"
+        android:layout_width="250dp"
+        android:layout_height="match_parent"
+        android:background="#292929"
+        android:padding="15dp"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:id="@+id/settingsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:src="@drawable/settings_white"
+                android:contentDescription="@string/settings_icon">
+            </ImageView>
+
+            <Button
+                android:id="@+id/settingsButton"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/settings">
+
+            </Button>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="70dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/report_bug">
+
+            </Button>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
