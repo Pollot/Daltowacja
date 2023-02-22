@@ -108,11 +108,11 @@ class MainActivity : AppCompatActivity() {
                         is changed only once and not continuously
                         */
                         runOnUiThread {
-                            if (luma >= 100 && pointerBlack.visibility == View.GONE) {
+                            if (luma >= 90 && pointerBlack.visibility == View.GONE) {
                                 pointerWhite.visibility = View.GONE
                                 pointerBlack.visibility = View.VISIBLE
                             } else {
-                                if (luma < 100 && pointerWhite.visibility == View.GONE) {
+                                if (luma < 90 && pointerWhite.visibility == View.GONE) {
                                     pointerBlack.visibility = View.GONE
                                     pointerWhite.visibility = View.VISIBLE
                                 }
@@ -190,10 +190,14 @@ class MainActivity : AppCompatActivity() {
             val middleY = image.height / 2
 
             val sliderPosition = findViewById<SeekBar>(R.id.pointerSizeSlider)
-            val searchedAreaSize = (sliderPosition.progress/2)+1 // Add ceil function instead of +1 for 0 value
+            val searchAreaSize = (sliderPosition.progress)+1 // Add ceil function instead of +1 for 0 value
 
-            // !!CHECK IF CORRECT!! Define a rectangle that covers the middle area, size dynamically set by Slidebar
-            val rect = Rect(middleX - searchedAreaSize, middleY - searchedAreaSize, middleX + searchedAreaSize, middleY + searchedAreaSize)
+            // Log.d(TAG, "Area size: $searchAreaSize")
+
+            // Define a rectangle that covers the middle area, size dynamically set by Slider
+            val rect = Rect(middleX - searchAreaSize, middleY - searchAreaSize, middleX + searchAreaSize, middleY + searchAreaSize)
+
+            // Log.d(TAG, "Rectangle: $rect")
 
             // Calculate the average color of the middle area
             var red = 0
@@ -314,13 +318,15 @@ class MainActivity : AppCompatActivity() {
                 // You can use the "progress" parameter to get the current slider value
                 // and update your UI or perform any other actions as needed
                 val paramsW = pointerWhite.layoutParams
-                paramsW.width = pointerSizeSlider.progress+12 // Set the new width in pixels
-                paramsW.height = pointerSizeSlider.progress+12
+                paramsW.width = (pointerSizeSlider.progress+9)*2 // 9 = 8 for stroke + 1 to avoid 0
+                paramsW.height = (pointerSizeSlider.progress+9)*2
                 pointerWhite.layoutParams = paramsW
                 val paramsB = pointerBlack.layoutParams
-                paramsB.width = pointerSizeSlider.progress+12 // Set the new width in pixels
-                paramsB.height = pointerSizeSlider.progress+12
+                paramsB.width = (pointerSizeSlider.progress+9)*2
+                paramsB.height = (pointerSizeSlider.progress+9)*2
                 pointerBlack.layoutParams = paramsB
+
+                // Log.d(TAG, "Slider value: $progress")
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -353,10 +359,10 @@ class MainActivity : AppCompatActivity() {
 
             /*
             Calculate the size of the center square:
-            it will be 150x150 px or one of the center
+            it will be 100x100 px or one of the center
             coordinates (if it is smaller)
             */
-            val squareSize = minOf(centerX, centerY, 150)
+            val squareSize = minOf(centerX, centerY, 100)
 
             // Calculate the starting position of the center square
             val startX = centerX - squareSize / 2
