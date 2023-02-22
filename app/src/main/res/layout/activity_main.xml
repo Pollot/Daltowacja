@@ -63,7 +63,7 @@
         android:paddingEnd="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:background="@color/blue_green">
+        android:background="@color/blue_green_dark">
 
         <TextView
             android:id="@+id/colorDescription"
@@ -110,5 +110,7 @@
             style="@style/button_style" />
 
     </LinearLayout>
+
+    <include layout="@layout/toolbar" />
 
 </RelativeLayout>

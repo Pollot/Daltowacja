@@ -25,6 +25,7 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import androidx.camera.view.PreviewView
 import kotlin.math.sqrt
+import androidx.appcompat.widget.Toolbar
 
 typealias LumaListener = (luma: Double) -> Unit
 
@@ -38,6 +39,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+
+        // Set custom toolbar
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
         val previewView = findViewById<PreviewView>(R.id.viewFinder)
         val frozenFrame = findViewById<ImageView>(R.id.frozenFrame)
