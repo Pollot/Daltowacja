@@ -9,6 +9,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <SeekBar
+        android:layout_marginTop="?attr/actionBarSize"
+        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:id="@+id/pointerSizeSlider"
+        android:background="#505050"
+        android:max="50"
+        android:progress="25"
+        android:tooltipText="pointer size">
+    </SeekBar>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -17,8 +28,8 @@
         <ImageView
             android:id="@+id/pointerBlack"
             android:visibility="gone"
-            android:layout_width="60px"
-            android:layout_height="60px"
+            android:layout_width="37px"
+            android:layout_height="37px"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -26,13 +37,14 @@
             app:layout_constraintVertical_bias="0.5"
             app:layout_constraintHorizontal_bias="0.5"
             android:contentDescription="@string/center_pointer"
-            android:src="@drawable/pointer_black" />
+            android:src="@drawable/pointer_black"
+            tools:ignore="PxUsage" />
 
         <ImageView
             android:id="@+id/pointerWhite"
             android:visibility="gone"
-            android:layout_width="60px"
-            android:layout_height="60px"
+            android:layout_width="37px"
+            android:layout_height="37px"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,7 +52,8 @@
             app:layout_constraintVertical_bias="0.5"
             app:layout_constraintHorizontal_bias="0.5"
             android:contentDescription="@string/center_pointer"
-            android:src="@drawable/pointer_white" />
+            android:src="@drawable/pointer_white"
+            tools:ignore="PxUsage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
