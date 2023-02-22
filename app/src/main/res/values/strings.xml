@@ -6,4 +6,11 @@
     <string name="color_description">Color description</string>
     <string name="frozen_image_description">Frozen image</string>
     <string name="center_pointer">Pointer on the center</string>
+    <string name="info_about_appication">info about appication</string>
+    <string name="expandable_menu">expandable menu</string>
+    <string name="settings">settings</string>
+    <string name="settings_icon">settings icon</string>
+    <string name="report_bug">report bug</string>
+    <string name="daltowacja">Daltowacja</string>
+    <string name="info_description">Aplikacja ta pozwala osobom dotkniętym zaburzeniem widzenia kolorów na rozróżnianie ich za pomocą rozmaitych funkcji zawartych w niej. Począwszy od rozróżniania pojedynczo kolorów na siatkach kolorów kończąc. (tak naprawdę, to nie mam pomysłu co tu napisać, możesz to zmienić)</string>
 </resources>
