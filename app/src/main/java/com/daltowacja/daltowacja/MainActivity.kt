@@ -17,6 +17,7 @@ import androidx.camera.core.CameraSelector
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -42,27 +43,31 @@ class MainActivity : AppCompatActivity() {
         // Disable application name in the toolbar
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        val menuButton = findViewById<ImageView>(R.id.menuButton)
+        val menuLayout = findViewById<RelativeLayout>(R.id.menuLayout)
+
+        val infoButton = findViewById<ImageView>(R.id.infoButton)
+
         val previewView = findViewById<PreviewView>(R.id.viewFinder)
         val frozenFrame = findViewById<ImageView>(R.id.frozenFrame)
+
         val frozenButton = findViewById<Button>(R.id.freezeButton)
         val analyzeColorButton = findViewById<Button>(R.id.analyzeColorButton)
+
         val colorName = findViewById<TextView>(R.id.colorName)
         val colorDescription = findViewById<TextView>(R.id.colorDescription)
         val coloredRectangle = findViewById<RelativeLayout>(R.id.colorNameLayout)
+
         val pointerWhite = findViewById<ImageView>(R.id.pointerWhite)
         val pointerBlack = findViewById<ImageView>(R.id.pointerBlack)
         val pointerSizeSlider = findViewById<SeekBar>(R.id.pointerSizeSlider)
-        val menuIcon = findViewById<ImageView>(R.id.menuIcon)
-        val menuLayout = findViewById<RelativeLayout>(R.id.menuLayout)
-        val infoIcon = findViewById<ImageView>(R.id.infoIcon)
-        val infoLayout = findViewById<LinearLayout>(R.id.infoLayout)
 
         if (allPermissionsGranted()) {
             startCamera()
             setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton)
             captureFrame(previewView, colorName, colorDescription, coloredRectangle, analyzeColorButton)
             changePointerSize(pointerSizeSlider, pointerWhite, pointerBlack)
-            toggleMenuOrInfoOnClick(menuIcon, infoIcon, infoLayout, menuLayout)
+            toggleMenuOrInfoOnClick(menuButton, infoButton, menuLayout)
         } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
@@ -283,28 +288,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun toggleMenuOrInfoOnClick(menuIcon: ImageView, infoIcon: ImageView, infoLayout: LinearLayout, menuLayout: RelativeLayout) {
-        menuIcon.setOnClickListener {
-            if(menuLayout.visibility == View.VISIBLE) {
-                menuIcon.setImageResource(R.drawable.menu_white)
+    private fun toggleMenuOrInfoOnClick(menuButton: ImageView, infoButton: ImageView, menuLayout: RelativeLayout) {
+        menuButton.setOnClickListener {
+            if (menuLayout.visibility == View.VISIBLE) {
+                menuButton.setImageResource(R.drawable.menu_white)
                 menuLayout.visibility = View.GONE
             } else {
-                menuIcon.setImageResource(R.drawable.menu_selected)
+                menuButton.setImageResource(R.drawable.menu_selected)
                 menuLayout.visibility = View.VISIBLE
-                infoLayout.visibility = View.GONE
-                infoIcon.setImageResource(R.drawable.info_white)
             }
         }
-        infoIcon.setOnClickListener {
-            if(infoLayout.visibility == View.VISIBLE) {
-                infoIcon.setImageResource(R.drawable.info_white)
-                infoLayout.visibility = View.GONE
-            } else {
-                infoIcon.setImageResource(R.drawable.info_white_selected)
-                infoLayout.visibility = View.VISIBLE
-                menuLayout.visibility = View.GONE
-                menuIcon.setImageResource(R.drawable.menu_white)
-            }
+        infoButton.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setView(R.layout.info_dialog)
+            builder.setPositiveButton(android.R.string.ok, null)
+            builder.create().show()
         }
     }
 

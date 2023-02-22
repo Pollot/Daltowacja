@@ -6,14 +6,14 @@
     android:background="?attr/colorPrimary">
 
     <ImageView
-        android:id="@+id/menuIcon"
+        android:id="@+id/menuButton"
         android:layout_width="40dp"
         android:layout_height="match_parent"
         android:src="@drawable/menu_white"
         android:contentDescription="@string/expandable_menu" />
 
     <ImageView
-        android:id="@+id/infoIcon"
+        android:id="@+id/infoButton"
         android:layout_width="35dp"
         android:layout_height="match_parent"
         android:layout_gravity="right"
