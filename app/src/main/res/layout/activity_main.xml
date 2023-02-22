@@ -14,11 +14,10 @@
         android:layout_height="50dp"
         android:layout_width="match_parent"
         android:id="@+id/pointerSizeSlider"
-        android:background="#505050"
+        android:background="?attr/colorPrimaryVariant"
         android:max="50"
         android:progress="25"
-        android:tooltipText="pointer size">
-    </SeekBar>
+        android:tooltipText="pointer size" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -76,7 +75,7 @@
         android:paddingEnd="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:background="@color/blue_green_dark">
+        android:background="?attr/colorSecondaryVariant">
 
         <TextView
             android:id="@+id/colorDescription"
