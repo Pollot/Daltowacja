@@ -125,4 +125,6 @@
 
     <include layout="@layout/toolbar" />
 
+    <include layout="@layout/sidebar" />
+
 </RelativeLayout>
