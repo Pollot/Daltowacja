@@ -24,7 +24,6 @@ import android.widget.Toast
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import androidx.camera.view.PreviewView
-import java.nio.ByteBuffer
 import kotlin.math.sqrt
 
 typealias LumaListener = (luma: Double) -> Unit
@@ -92,11 +91,11 @@ class MainActivity : AppCompatActivity() {
                         is changed only once and not continuously
                         */
                         runOnUiThread {
-                            if (luma >= 80 && pointerBlack.visibility == View.GONE) {
+                            if (luma >= 100 && pointerBlack.visibility == View.GONE) {
                                 pointerWhite.visibility = View.GONE
                                 pointerBlack.visibility = View.VISIBLE
                             } else {
-                                if (luma < 80 && pointerWhite.visibility == View.GONE) {
+                                if (luma < 100 && pointerWhite.visibility == View.GONE) {
                                     pointerBlack.visibility = View.GONE
                                     pointerWhite.visibility = View.VISIBLE
                                 }
@@ -286,22 +285,49 @@ class MainActivity : AppCompatActivity() {
 
     // Analyzer of the average preview luminosity
     private class LuminosityAnalyzer(private val listener: LumaListener) : ImageAnalysis.Analyzer {
-
-        private fun ByteBuffer.toByteArray(): ByteArray {
-            rewind()    // Rewind the buffer to zero
-            val data = ByteArray(remaining())
-            get(data)   // Copy the buffer into a byte array
-            return data // Return the byte array
-        }
-
         override fun analyze(image: ImageProxy) {
-
             val buffer = image.planes[0].buffer
-            val data = buffer.toByteArray()
-            val pixels = data.map { it.toInt() and 0xFF }
-            val luma = pixels.average()
+            val pixelStride = image.planes[0].pixelStride
+            val rowStride = image.planes[0].rowStride
+            val imageWidth = image.width
+            val imageHeight = image.height
 
-            listener(luma)
+            val centerX = imageWidth / 2
+            val centerY = imageHeight / 2
+
+            /*
+            Calculate the size of the center square:
+            it will be 150x150 px or one of the center
+            coordinates (if it is smaller)
+            */
+            val squareSize = minOf(centerX, centerY, 150)
+
+            // Calculate the starting position of the center square
+            val startX = centerX - squareSize / 2
+            val startY = centerY - squareSize / 2
+
+            // Calculate the end position of the center square
+            val endX = startX + squareSize
+            val endY = startY + squareSize
+
+            var totalLuma = 0.0
+            var pixelCount = 0
+
+            // Iterate through the pixels in the center square and calculate the average luminosity
+            for (y in startY until endY) {
+                for (x in startX until endX) {
+                    val pixelOffset = y * rowStride + x * pixelStride
+                    val pixelValue = buffer.get(pixelOffset).toInt() and 0xFF
+                    totalLuma += pixelValue
+                    pixelCount++
+                }
+            }
+
+            // Calculate the average luminosity of the center square
+            val avgLuma = totalLuma / pixelCount
+
+            // Call the listener with the average luminosity value
+            listener(avgLuma)
 
             image.close()
         }
