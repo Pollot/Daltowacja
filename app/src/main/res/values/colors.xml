@@ -9,6 +9,7 @@
     <color name="teal_200">#03DAC5</color>
     <color name="teal_700">#018786</color>
     <!-- Custom -->
+    <color name="gray_dark">#292929</color>
     <color name="blue_dark">#005EFF</color>
     <color name="blue_light">#008CFF</color>
     <color name="blue_green_dark">#0A323D</color>
