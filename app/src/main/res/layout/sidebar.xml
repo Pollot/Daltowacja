@@ -34,7 +34,7 @@
     </LinearLayout>
 
 
-    <RelativeLayout
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/menuLayout"
         android:layout_width="250dp"
         android:layout_height="match_parent"
@@ -78,6 +78,6 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
 
 </RelativeLayout>
