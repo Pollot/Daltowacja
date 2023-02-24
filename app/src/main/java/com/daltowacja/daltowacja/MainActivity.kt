@@ -6,6 +6,12 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.*
+import android.text.Layout
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.AlignmentSpan
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.daltowacja.daltowacja.databinding.ActivityMainBinding
@@ -44,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val menuButton = findViewById<ImageView>(R.id.menuButton)
-        val menuLayout = findViewById<RelativeLayout>(R.id.menuLayout)
+        val menuLayout = findViewById<Toolbar>(R.id.menuLayout)
 
         val infoButton = findViewById<ImageView>(R.id.infoButton)
 
@@ -292,7 +298,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun toggleMenuOrInfoOnClick(menuButton: ImageView, infoButton: ImageView, menuLayout: RelativeLayout) {
+    private fun toggleMenuOrInfoOnClick(menuButton: ImageView, infoButton: ImageView, menuLayout: Toolbar) {
         menuButton.setOnClickListener {
             if (menuLayout.visibility == View.VISIBLE) {
                 menuButton.setImageResource(R.drawable.menu_white)
@@ -303,10 +309,31 @@ class MainActivity : AppCompatActivity() {
             }
         }
         infoButton.setOnClickListener {
+            infoButton.setImageResource(R.drawable.info_white_selected)
             val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
+            val spannableString = SpannableString("Daltowacja")
+            spannableString.setSpan(ForegroundColorSpan(Color.WHITE),
+                0,
+                spannableString.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            spannableString.setSpan(StyleSpan(Typeface.BOLD),
+                0,
+                spannableString.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            spannableString.setSpan(
+                AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                0,
+                spannableString.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            builder.setCancelable(false)
+            builder.setMessage(spannableString)
+                .setPositiveButton("OK") {
+                        _, _ -> infoButton.setImageResource(R.drawable.info_white)
+                }
             builder.setView(R.layout.info_dialog)
-            builder.setCancelable(true)
-            builder.setPositiveButton(android.R.string.ok, null)
             builder.create().show()
         }
     }
