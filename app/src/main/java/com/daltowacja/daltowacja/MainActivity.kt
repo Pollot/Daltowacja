@@ -31,6 +31,7 @@ import androidx.camera.view.PreviewView
 import kotlin.math.sqrt
 
 typealias LumaListener = (luma: Double) -> Unit
+var currentPointerSize = 15 // DELET THIS NAHUI
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
@@ -344,13 +345,14 @@ class MainActivity : AppCompatActivity() {
                 // This method will be called whenever the slider value changes
                 // You can use the "progress" parameter to get the current slider value
                 // and update your UI or perform any other actions as needed
+                currentPointerSize = (pointerSizeSlider.progress+9)*2 // 9 = 8 for stroke + 1 to avoid 0
                 val paramsW = pointerWhite.layoutParams
-                paramsW.width = (pointerSizeSlider.progress+9)*2 // 9 = 8 for stroke + 1 to avoid 0
-                paramsW.height = (pointerSizeSlider.progress+9)*2
+                paramsW.width = currentPointerSize
+                paramsW.height = currentPointerSize
                 pointerWhite.layoutParams = paramsW
                 val paramsB = pointerBlack.layoutParams
-                paramsB.width = (pointerSizeSlider.progress+9)*2
-                paramsB.height = (pointerSizeSlider.progress+9)*2
+                paramsB.width = currentPointerSize
+                paramsB.height = currentPointerSize
                 pointerBlack.layoutParams = paramsB
 
                 // Log.d(TAG, "Slider value: $progress")
@@ -384,25 +386,18 @@ class MainActivity : AppCompatActivity() {
             val centerX = imageWidth / 2
             val centerY = imageHeight / 2
 
-            /*
-            Calculate the size of the center square:
-            it will be 100x100 px or one of the center
-            coordinates (if it is smaller)
-            */
-            val squareSize = minOf(centerX, centerY, 100)
-
             // Calculate the starting position of the center square
-            val startX = centerX - squareSize / 2
-            val startY = centerY - squareSize / 2
+            val startX = centerX - currentPointerSize / 2
+            val startY = centerY - currentPointerSize / 2
 
             // Calculate the end position of the center square
-            val endX = startX + squareSize
-            val endY = startY + squareSize
+            val endX = startX + currentPointerSize
+            val endY = startY + currentPointerSize
 
             var totalLuma = 0.0
             var pixelCount = 0
 
-            // Iterate through the pixels in the center square and calculate the average luminosity
+            // Iterate through the pixels in the specified square and calculate the average luminosity
             for (y in startY until endY) {
                 for (x in startX until endX) {
                     val pixelOffset = y * rowStride + x * pixelStride
@@ -412,7 +407,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            // Calculate the average luminosity of the center square
+            // Calculate the average luminosity of the specified square
             val avgLuma = totalLuma / pixelCount
 
             // Call the listener with the average luminosity value
