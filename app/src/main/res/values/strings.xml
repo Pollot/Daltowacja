@@ -16,5 +16,6 @@
     <string name="slider_description">Pointer\'s size</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="logo_description">App logo</string>
 
 </resources>
