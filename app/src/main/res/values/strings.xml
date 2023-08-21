@@ -14,4 +14,7 @@
     <string name="daltowacja">Daltowacja</string>
     <string name="info_description">Aplikacja ta pozwala osobom dotkniętym zaburzeniem widzenia kolorów na rozróżnianie ich za pomocą rozmaitych funkcji zawartych w niej. Począwszy od rozróżniania pojedynczo kolorów na siatkach kolorów kończąc. (tak naprawdę, to nie mam pomysłu co tu napisać, możesz to zmienić)</string>
     <string name="slider_description">Pointer\'s size</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
 </resources>

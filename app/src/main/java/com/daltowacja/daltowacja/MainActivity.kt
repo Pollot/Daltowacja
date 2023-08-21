@@ -23,15 +23,18 @@ import androidx.camera.core.CameraSelector
 import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import androidx.camera.view.PreviewView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import kotlin.math.sqrt
 
 typealias LumaListener = (luma: Double) -> Unit
-var currentPointerSize = 15 // DELET THIS NAHUI
+var currentPointerSize = 15
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
@@ -50,10 +53,19 @@ class MainActivity : AppCompatActivity() {
         // Disable application name in the toolbar
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
+        val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         val menuButton = findViewById<ImageView>(R.id.menuButton)
-        val menuLayout = findViewById<Toolbar>(R.id.menuLayout)
-
         val infoButton = findViewById<ImageView>(R.id.infoButton)
+
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        menuButton.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
+        }
 
         val previewView = findViewById<PreviewView>(R.id.viewFinder)
         val frozenFrame = findViewById<ImageView>(R.id.frozenFrame)
@@ -74,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton)
             captureFrame(previewView, colorName, colorDescription, coloredRectangle, analyzeColorButton)
             changePointerSize(pointerSizeSlider, pointerWhite, pointerBlack)
-            toggleMenuOrInfoOnClick(menuButton, infoButton, menuLayout)
+            infoOnClick(infoButton)
         } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
@@ -299,16 +311,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun toggleMenuOrInfoOnClick(menuButton: ImageView, infoButton: ImageView, menuLayout: Toolbar) {
-        menuButton.setOnClickListener {
-            if (menuLayout.visibility == View.VISIBLE) {
-                menuButton.setImageResource(R.drawable.menu_white)
-                menuLayout.visibility = View.GONE
-            } else {
-                menuButton.setImageResource(R.drawable.menu_selected)
-                menuLayout.visibility = View.VISIBLE
-            }
-        }
+    private fun infoOnClick(infoButton: ImageView) {
         infoButton.setOnClickListener {
             infoButton.setImageResource(R.drawable.info_white_selected)
             val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)

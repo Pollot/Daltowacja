@@ -1,83 +1,17 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="top">
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/infoLayout"
+    <!-- Add a text item for the sidebar -->
+    <TextView
+        android:id="@+id/sidebar_text"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:layout_alignParentBottom="true"
-        android:background="?attr/colorPrimaryVariant"
-        android:padding="20dp"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:text="Daltowacja"
+        android:padding="16dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/black" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="@string/daltowacja"
-            android:textColor="@color/white"
-            android:layout_marginTop="20dp"
-            android:textSize="30sp" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:text="@string/info_description"
-            android:textColor="@color/white" />
-
-    </LinearLayout>
-
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/menuLayout"
-        android:layout_width="250dp"
-        android:layout_height="match_parent"
-        android:background="?attr/colorPrimaryVariant"
-        android:padding="15dp"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:visibility="gone">
-
-        <LinearLayout
-            android:id="@+id/settingsLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="5dp"
-                android:src="@drawable/settings_white"
-                android:contentDescription="@string/settings_icon" />
-
-            <Button
-                android:id="@+id/settingsButton"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="@string/settings" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginTop="70dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="@string/report_bug" />
-
-        </LinearLayout>
-
-    </androidx.appcompat.widget.Toolbar>
-
-</RelativeLayout>
+</LinearLayout>
