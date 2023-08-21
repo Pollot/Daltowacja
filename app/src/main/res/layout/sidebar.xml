@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/logo_image"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:src="@mipmap/ic_launcher"
         android:contentDescription="@string/logo_description" />
 
@@ -22,6 +22,6 @@
         android:layout_marginStart="16dp"
         android:text="@string/app_name"
         android:textColor="@color/white"
-        android:textSize="20sp" />
+        android:textSize="26dp" />
 
 </RelativeLayout>

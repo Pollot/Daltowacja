@@ -55,17 +55,8 @@ class MainActivity : AppCompatActivity() {
 
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
         val menuButton = findViewById<ImageView>(R.id.menuButton)
+
         val infoButton = findViewById<ImageView>(R.id.infoButton)
-
-        val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        menuButton.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
 
         val previewView = findViewById<PreviewView>(R.id.viewFinder)
         val frozenFrame = findViewById<ImageView>(R.id.frozenFrame)
@@ -86,6 +77,7 @@ class MainActivity : AppCompatActivity() {
             setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton)
             captureFrame(previewView, colorName, colorDescription, coloredRectangle, analyzeColorButton)
             changePointerSize(pointerSizeSlider, pointerWhite, pointerBlack)
+            setupSidebarToggle(drawerLayout, menuButton)
             infoOnClick(infoButton)
         } else {
             ActivityCompat.requestPermissions(
@@ -308,6 +300,18 @@ class MainActivity : AppCompatActivity() {
                 previewView.visibility = View.VISIBLE
                 frozenFrame.visibility = View.GONE
             }
+        }
+    }
+
+    private fun setupSidebarToggle(drawerLayout: DrawerLayout, menuButton: ImageView) {
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+
+        menuButton.setOnClickListener {
+            drawerLayout.openDrawer(GravityCompat.START)
         }
     }
 
