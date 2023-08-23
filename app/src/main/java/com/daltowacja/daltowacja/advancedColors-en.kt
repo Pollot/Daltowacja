@@ -746,5 +746,5 @@ val advancedColors_en = mapOf(
     intArrayOf(255, 174, 66) to listOf("Yellow Orange", "Light orange"),
     intArrayOf(154, 205, 50) to listOf("Yellow green", "Strong green"),
     intArrayOf(0, 20, 168) to listOf("Zaffre", "Dark blue"),
-    intArrayOf(44, 22, 8) to listOf("Zinnwaldite brown", "Very dark (mostly black) orange [Brown tone]"),
+    intArrayOf(44, 22, 8) to listOf("Zinnwaldite brown", "Very dark (mostly black) orange [Brown tone]")
 )
