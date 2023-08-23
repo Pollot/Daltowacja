@@ -1,6 +1,7 @@
 package com.daltowacja.daltowacja
 
-val advancedColors_pl = mapOf(intArrayOf(93, 138, 168) to listOf("Rackley", "Przeważnie desaturowany ciemnoniebieski"),
+val advancedColors_pl = mapOf(
+    intArrayOf(93, 138, 168) to listOf("Rackley", "Przeważnie desaturowany ciemnoniebieski"),
     intArrayOf(240, 248, 255) to listOf("Alice Blue", "Bardzo blady (głównie biały) niebieski"),
     intArrayOf(227, 38, 54) to listOf("Szalona Róża", "Jasny czerwony"),
     intArrayOf(239, 222, 205) to listOf("Migdałowy", "Jasno szaro-pomarańczowy"),

@@ -180,11 +180,23 @@ class MainActivity : AppCompatActivity() {
         var minDistance = Double.MAX_VALUE
         var nameDesc = listOf<String>()
 
-        for ((colorRgb, colorInfo) in advancedColors_pl) {
-            val distance = getEuclideanDistance(rgb, colorRgb)
-            if (distance < minDistance) {
-                minDistance = distance
-                nameDesc = colorInfo
+        // Check if the current OS language is set to Polish
+        val currentLocales = resources.configuration.locales
+        if (currentLocales[0].language == "pl") {
+            for ((colorRgb, colorInfo) in advancedColors_pl) {
+                val distance = getEuclideanDistance(rgb, colorRgb)
+                if (distance < minDistance) {
+                    minDistance = distance
+                    nameDesc = colorInfo
+                }
+            }
+        } else {
+            for ((colorRgb, colorInfo) in advancedColors_en) {
+                val distance = getEuclideanDistance(rgb, colorRgb)
+                if (distance < minDistance) {
+                    minDistance = distance
+                    nameDesc = colorInfo
+                }
             }
         }
 
