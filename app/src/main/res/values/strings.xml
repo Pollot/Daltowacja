@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Daltowacja</string>
+    <string name="app_name" translatable="false">Daltowacja</string>
     <string name="freeze">Freeze</string>
     <string name="analyze">Analyze</string>
     <string name="color_name">Color name</string>
@@ -11,11 +11,11 @@
     <string name="settings">settings</string>
     <string name="settings_icon">settings icon</string>
     <string name="report_bug">report bug</string>
-    <string name="daltowacja">Daltowacja</string>
-    <string name="info_description">Aplikacja ta pozwala osobom dotkniętym zaburzeniem widzenia kolorów na rozróżnianie ich za pomocą rozmaitych funkcji zawartych w niej. Począwszy od rozróżniania pojedynczo kolorów na siatkach kolorów kończąc. (tak naprawdę, to nie mam pomysłu co tu napisać, możesz to zmienić)</string>
+    <string name="daltowacja" translatable="false">Daltowacja</string>
     <string name="slider_description">Pointer\'s size</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="logo_description">App logo</string>
+    <string name="info_description">Our application enables color differentiation by analyzing the color in the center of the image and extracting only the chosen color.</string>
 
 </resources>

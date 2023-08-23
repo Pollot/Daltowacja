@@ -180,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         var minDistance = Double.MAX_VALUE
         var nameDesc = listOf<String>()
 
-        for ((colorRgb, colorInfo) in advancedColors) {
+        for ((colorRgb, colorInfo) in advancedColors_pl) {
             val distance = getEuclideanDistance(rgb, colorRgb)
             if (distance < minDistance) {
                 minDistance = distance
