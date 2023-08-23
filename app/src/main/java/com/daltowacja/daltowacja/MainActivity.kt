@@ -302,13 +302,13 @@ class MainActivity : AppCompatActivity() {
     private fun setPreviewViewFreezeOnClick(previewView: PreviewView, frozenFrame: ImageView, button: Button) {
         button.setOnClickListener {
             if (previewView.visibility == View.VISIBLE) {
-                button.text = "unfreeze"
+                button.text = getString(R.string.unfreeze)
                 val bitmap = previewView.bitmap
                 frozenFrame.setImageBitmap(bitmap)
                 previewView.visibility = View.GONE
                 frozenFrame.visibility = View.VISIBLE
             } else {
-                button.text = "freeze"
+                button.text = getString(R.string.freeze)
                 previewView.visibility = View.VISIBLE
                 frozenFrame.visibility = View.GONE
             }
