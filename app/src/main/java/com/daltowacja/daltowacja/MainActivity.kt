@@ -22,6 +22,7 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import androidx.camera.view.PreviewView
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.preference.PreferenceManager
 import kotlin.math.sqrt
 
 typealias LumaListener = (luma: Double) -> Unit
@@ -34,6 +35,11 @@ class MainActivity : AppCompatActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Apply selected theme
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val selectedTheme = sharedPreferences.getString("theme", "auto") ?: "auto"
+        ThemeManager.applyTheme(selectedTheme)
+
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)

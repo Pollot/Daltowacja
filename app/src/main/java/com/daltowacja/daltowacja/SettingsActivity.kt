@@ -6,11 +6,18 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceManager
 
 class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Apply selected theme
+        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val selectedTheme = sharedPreferences.getString("theme", "auto") ?: "auto"
+        ThemeManager.applyTheme(selectedTheme)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.settings_activity)
 
@@ -45,6 +52,25 @@ class SettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
+
+            // Get the preference instance for the theme preference
+            val themePreference = findPreference<Preference>("theme")
+
+            // Set a listener to handle theme preference changes
+            themePreference?.setOnPreferenceChangeListener { _, newValue ->
+                if (newValue is String) {
+
+                    val context = requireContext().applicationContext // Use this to get a non-null context
+                    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
+                    sharedPreferences.edit().putString("theme", newValue).apply()
+
+                    ThemeManager.applyTheme(newValue)
+
+                    true
+                } else {
+                    false
+                }
+            }
         }
     }
 }
