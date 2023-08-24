@@ -35,4 +35,10 @@
     <string name="dark_theme">Dark</string>
     <string name="light_theme">Light</string>
 
+    <!-- Colors mode -->
+    <string name="basic">Basic</string>
+    <string name="advanced">Advanced (recommended)</string>
+    <string name="colors_mode">Colors range</string>
+    <string name="colors_options">Colors options</string>
+
 </resources>

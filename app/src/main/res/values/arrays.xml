@@ -1,5 +1,5 @@
 <resources>
-    <!-- Theme Preference -->
+    <!-- Theme preference -->
     <string-array name="theme_entries">
         <item>@string/auto</item>
         <item>@string/dark_theme</item>
@@ -10,5 +10,16 @@
         <item>auto</item>
         <item>dark</item>
         <item>light</item>
+    </string-array>
+
+    <!-- Colors mode -->
+    <string-array name="colors_mode_entries">
+        <item>@string/advanced</item>
+        <item>@string/basic</item>
+    </string-array>
+
+    <string-array name="colors_mode_values">
+        <item>advanced</item>
+        <item>basic</item>
     </string-array>
 </resources>

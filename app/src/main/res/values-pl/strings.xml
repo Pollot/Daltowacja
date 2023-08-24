@@ -24,4 +24,8 @@
     <string name="choose_theme">Wybierz motyw</string>
     <string name="contact">Kontakt</string>
     <string name="no_email_app">Brak aplikacji do maili</string>
+    <string name="basic">Podstawowe</string>
+    <string name="advanced">Rozrzeszone (zalecane)</string>
+    <string name="colors_mode">Ilość kolorów</string>
+    <string name="colors_options">Opcje kolorów</string>
 </resources>
