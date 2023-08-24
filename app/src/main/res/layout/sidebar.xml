@@ -1,27 +1,77 @@
-<RelativeLayout
+<com.google.android.material.navigation.NavigationView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_view"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_gravity="start"
+    android:background="?colorPrimary">
 
-    <ImageView
-        android:id="@+id/logo_image"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:src="@mipmap/ic_launcher"
-        android:contentDescription="@string/logo_description" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:id="@+id/sidebar_heading"
+            android:layout_height="match_parent"
+            android:padding="16dp">
+
+            <ImageView
+                android:id="@+id/logo_image"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@mipmap/ic_launcher"
+                android:contentDescription="@string/logo_description" />
+
+            <TextView
+                android:id="@+id/heading_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/logo_image"
+                android:layout_alignTop="@id/logo_image"
+                android:layout_alignBottom="@id/logo_image"
+                android:gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:text="@string/app_name"
+                android:textColor="?colorOnPrimary"
+                android:textSize="26sp" />
+
+        </RelativeLayout>
+
 
     <TextView
-        android:id="@+id/sidebar_text"
-        android:layout_width="wrap_content"
+        android:id="@+id/camera_button"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@id/logo_image"
-        android:layout_alignTop="@id/logo_image"
-        android:layout_alignBottom="@id/logo_image"
-        android:gravity="center_vertical"
-        android:layout_marginStart="16dp"
-        android:text="@string/app_name"
+        android:layout_marginTop="32dp"
+        android:padding="16dp"
+        app:drawableLeftCompat="@drawable/baseline_photo_camera"
+        android:drawablePadding="16dp"
+        android:text="@string/camera"
+        android:textSize="24sp"
         android:textColor="?colorOnPrimary"
-        android:textSize="26sp" />
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="openCamera" />
 
-</RelativeLayout>
+
+    <TextView
+        android:id="@+id/settings_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="?colorPrimaryVariant"
+        app:drawableLeftCompat="@drawable/baseline_settings"
+        android:drawablePadding="16dp"
+        android:text="@string/settings"
+        android:textSize="24sp"
+        android:textColor="?colorOnPrimary"
+        android:clickable="true"
+        android:focusable="true"
+        android:onClick="openSettings" />
+
+    </LinearLayout>
+
+</com.google.android.material.navigation.NavigationView>

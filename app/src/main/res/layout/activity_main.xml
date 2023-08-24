@@ -138,22 +138,14 @@
 
         </LinearLayout>
 
+
         <include layout="@layout/toolbar" />
+
 
     </RelativeLayout>
 
 
-    <!-- NavigationView for the sidebar -->
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="?colorPrimary">
-
-        <include layout="@layout/sidebar" />
-
-    </com.google.android.material.navigation.NavigationView>
+    <include layout="@layout/sidebar" />
 
 
 </androidx.drawerlayout.widget.DrawerLayout>

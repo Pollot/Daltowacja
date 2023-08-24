@@ -17,5 +17,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="logo_description">App logo</string>
     <string name="info_description">Our application enables color differentiation by analyzing the color in the center of the image and extracting only the chosen color.</string>
+    <string name="camera">Camera</string>
 
 </resources>
