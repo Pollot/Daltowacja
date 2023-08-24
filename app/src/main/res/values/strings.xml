@@ -7,12 +7,15 @@
     <string name="analyze">Analyze</string>
     <string name="camera">Camera</string>
     <string name="settings">Settings</string>
-    <string name="report_bug">Report a bug</string>
+    <string name="contact">Contact us</string>
 
     <!-- Descriptions -->
     <string name="color_name">Color name</string>
     <string name="color_description">Color description</string>
     <string name="info_description">Our application enables color differentiation by analyzing the color in the center of the image and extracting only the chosen color.</string>
+
+    <!-- Toasts -->
+    <string name="no_email_app">No email app found</string>
 
     <!-- Images -->
     <string name="frozen_image_description">Frozen image</string>

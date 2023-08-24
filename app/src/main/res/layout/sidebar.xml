@@ -41,31 +41,44 @@
         </RelativeLayout>
 
 
-    <TextView
-        android:id="@+id/cameraButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:padding="16dp"
-        app:drawableLeftCompat="@drawable/baseline_photo_camera"
-        android:drawablePadding="16dp"
-        android:text="@string/camera"
-        android:textSize="24sp"
-        android:textColor="?colorOnPrimary"
-        android:focusable="true" />
+        <TextView
+            android:id="@+id/cameraButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:padding="16dp"
+            app:drawableLeftCompat="@drawable/baseline_photo_camera"
+            android:drawablePadding="16dp"
+            android:text="@string/camera"
+            android:textSize="24sp"
+            android:textColor="?colorOnPrimary"
+            android:focusable="true" />
 
 
-    <TextView
-        android:id="@+id/settingsButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        app:drawableLeftCompat="@drawable/baseline_settings"
-        android:drawablePadding="16dp"
-        android:text="@string/settings"
-        android:textSize="24sp"
-        android:textColor="?colorOnPrimary"
-        android:focusable="true" />
+        <TextView
+            android:id="@+id/settingsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:drawableLeftCompat="@drawable/baseline_settings"
+            android:drawablePadding="16dp"
+            android:text="@string/settings"
+            android:textSize="24sp"
+            android:textColor="?colorOnPrimary"
+            android:focusable="true" />
+
+        <TextView
+            android:id="@+id/contactButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:drawableLeftCompat="@drawable/baseline_contact_support"
+            android:drawablePadding="16dp"
+            android:text="@string/contact"
+            android:textSize="24sp"
+            android:textColor="?colorOnPrimary"
+            android:focusable="true" />
+
 
     </LinearLayout>
 
