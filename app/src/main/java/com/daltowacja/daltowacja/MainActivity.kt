@@ -15,6 +15,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.core.Preview
 import androidx.camera.core.CameraSelector
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
@@ -59,6 +60,27 @@ class MainActivity : AppCompatActivity() {
         // Sidebar buttons
         val cameraButton = findViewById<TextView>(R.id.cameraButton)
         val settingsButton = findViewById<TextView>(R.id.settingsButton)
+
+        // Set colorPrimaryVariant as cameraButton background
+        val typedValue = TypedValue()
+        val theme = this.theme  // Get the current activity's theme
+        theme.resolveAttribute(
+            com.google.android.material.R.attr.colorPrimaryVariant,
+            typedValue,
+            true
+        )
+        val colorPrimaryVariant = typedValue.data
+        cameraButton.setBackgroundColor(colorPrimaryVariant)
+
+        // set colorPrimary as settingsButton background
+        val typedValuePrimary = TypedValue()
+        theme.resolveAttribute(
+            com.google.android.material.R.attr.colorPrimary,
+            typedValuePrimary,
+            true
+        )
+        val colorPrimary = typedValuePrimary.data
+        settingsButton.setBackgroundColor(colorPrimary)
 
         // Views
         val previewView = findViewById<PreviewView>(R.id.viewFinder)

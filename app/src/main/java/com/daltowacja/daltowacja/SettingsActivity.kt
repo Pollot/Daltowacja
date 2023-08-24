@@ -1,6 +1,7 @@
 package com.daltowacja.daltowacja
 
 import android.os.Bundle
+import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -40,6 +41,27 @@ class SettingsActivity : AppCompatActivity() {
         val settingsButton = findViewById<TextView>(R.id.settingsButton)
         SidebarButtons.setCameraButton(this, cameraButton)
         SidebarButtons.setSettingsButton(this, settingsButton)
+
+        // Set colorPrimaryVariant as settingsButton background
+        val typedValue = TypedValue()
+        val theme = this.theme  // Get the current activity's theme
+        theme.resolveAttribute(
+            com.google.android.material.R.attr.colorPrimaryVariant,
+            typedValue,
+            true
+        )
+        val colorPrimaryVariant = typedValue.data
+        settingsButton.setBackgroundColor(colorPrimaryVariant)
+
+        // set colorPrimary as cameraButton background
+        val typedValuePrimary = TypedValue()
+        theme.resolveAttribute(
+            com.google.android.material.R.attr.colorPrimary,
+            typedValuePrimary,
+            true
+        )
+        val colorPrimary = typedValuePrimary.data
+        cameraButton.setBackgroundColor(colorPrimary)
 
         if (savedInstanceState == null) {
             supportFragmentManager
