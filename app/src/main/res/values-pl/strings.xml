@@ -9,13 +9,17 @@
     <string name="info_about_application">Przycisk z informacjami o aplikacji</string>
     <string name="expandable_menu">Menu</string>
     <string name="settings">Ustawienia</string>
-    <string name="settings_icon">Ikona ustawień</string>
     <string name="report_bug">Zgłoś błąd</string>
     <string name="info_description">Nasza aplikacja umożliwia rozróżnianie kolorów poprzez analizowanie koloru na środku obrazu oraz wyodrębnianie tylko jednego wybranego koloru.</string>
+    <string name="dark_theme">Ciemny</string>
+    <string name="light_theme">Jasny</string>
+    <string name="auto">Automytyczny</string>
     <string name="slider_description">Wielkość wskaźnika</string>
     <string name="navigation_drawer_open">Otwórz boczny panel</string>
     <string name="navigation_drawer_close">Zamknij boczny panel</string>
     <string name="logo_description">Logo aplikacji</string>
     <string name="unfreeze">Odmroź</string>
     <string name="camera">Kamera</string>
+    <string name="appearance_header">Wygląd</string>
+    <string name="choose_theme">Wybierz motyw</string>
 </resources>

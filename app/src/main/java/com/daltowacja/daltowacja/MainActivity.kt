@@ -6,12 +6,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.*
-import android.text.Layout
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.AlignmentSpan
-import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.daltowacja.daltowacja.databinding.ActivityMainBinding
@@ -21,16 +15,12 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.core.Preview
 import androidx.camera.core.CameraSelector
 import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
 import androidx.camera.view.PreviewView
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import kotlin.math.sqrt
 
@@ -55,9 +45,14 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
-        val menuButton = findViewById<ImageView>(R.id.menuButton)
 
+        // Toolbar buttons
+        val menuButton = findViewById<ImageView>(R.id.menuButton)
         val infoButton = findViewById<ImageView>(R.id.infoButton)
+
+        // Sidebar buttons
+        val cameraButton = findViewById<TextView>(R.id.cameraButton)
+        val settingsButton = findViewById<TextView>(R.id.settingsButton)
 
         val previewView = findViewById<PreviewView>(R.id.viewFinder)
         val frozenFrame = findViewById<ImageView>(R.id.frozenFrame)
@@ -78,8 +73,9 @@ class MainActivity : AppCompatActivity() {
             setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton)
             captureFrame(previewView, colorName, colorDescription, coloredRectangle, analyzeColorButton)
             changePointerSize(pointerSizeSlider, pointerWhite, pointerBlack)
-            setupSidebarToggle(drawerLayout, menuButton)
-            infoOnClick(infoButton)
+            ToolbarButtons.setupSidebarToggle(this, drawerLayout, menuButton)
+            ToolbarButtons.infoOnClick(this, infoButton)
+            SidebarButtons.setClickListeners(this, cameraButton, settingsButton)
         } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
@@ -316,56 +312,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupSidebarToggle(drawerLayout: DrawerLayout, menuButton: ImageView) {
-        val toggle = ActionBarDrawerToggle(
-            this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close
-        )
-        drawerLayout.addDrawerListener(toggle)
-        toggle.syncState()
-
-        menuButton.setOnClickListener {
-            drawerLayout.openDrawer(GravityCompat.START)
-        }
-    }
-
-    private fun infoOnClick(infoButton: ImageView) {
-        infoButton.setOnClickListener {
-            val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
-
-            // Get the colorOnPrimary from themes.xml
-            val typedValue = TypedValue()
-            theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
-            val colorOnPrimary = typedValue.data
-
-            val spannableString = SpannableString(TAG)
-
-            spannableString.setSpan(
-                ForegroundColorSpan(colorOnPrimary),
-                0,
-                spannableString.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            spannableString.setSpan(StyleSpan(Typeface.BOLD),
-                0,
-                spannableString.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            spannableString.setSpan(
-                AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
-                0,
-                spannableString.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
-            builder.setCancelable(false)
-            builder.setMessage(spannableString)
-                .setPositiveButton("OK") {
-                        dialog, _ -> dialog.dismiss()
-                }
-            builder.setView(R.layout.info_dialog)
-            builder.create().show()
-        }
-    }
-
     private fun changePointerSize(pointerSizeSlider: SeekBar, pointerWhite: ImageView, pointerBlack: ImageView) {
         pointerSizeSlider.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
@@ -446,7 +392,7 @@ class MainActivity : AppCompatActivity() {
 
     // Basic static variables
     companion object {
-        private const val TAG = "Daltowacja"
+        const val TAG = "Daltowacja"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS = mutableListOf(
             Manifest.permission.CAMERA).apply{}.toTypedArray()
