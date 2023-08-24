@@ -4,6 +4,7 @@
     <string name="analyze">Analizuj</string>
     <string name="color_name">Nazwa koloru</string>
     <string name="color_description">Opis koloru</string>
+    <string name="permissions_not_granted">Pozwolenia nie przyznane przez użytkownika</string>
     <string name="frozen_image_description">Zamrożony obraz</string>
     <string name="center_pointer">Wskaźnik na środku ekranu</string>
     <string name="info_about_application">Przycisk z informacjami o aplikacji</string>

@@ -193,9 +193,8 @@ class MainActivity : AppCompatActivity() {
             if (allPermissionsGranted()) {
                 startCamera()
             } else {
-                Toast.makeText(this,
-                    "Permissions not granted by the user.",
-                    Toast.LENGTH_SHORT).show()
+                val toastMessage = getString(R.string.permissions_not_granted)
+                Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show()
                 finish()
             }
         }

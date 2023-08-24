@@ -16,6 +16,7 @@
 
     <!-- Toasts -->
     <string name="no_email_app">No email app found</string>
+    <string name="permissions_not_granted">Permissions not granted by the user</string>
 
     <!-- Images -->
     <string name="frozen_image_description">Frozen image</string>
