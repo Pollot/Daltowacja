@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/color_description"
-                android:textColor="@color/white"
+                android:textColor="?colorOnPrimary"
                 android:textSize="16sp"
                 android:layout_below="@id/colorName" />
 
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
                 android:text="@string/color_name"
-                android:textColor="@color/white"
+                android:textColor="?colorOnPrimary"
                 android:textSize="24sp" />
 
         </RelativeLayout>

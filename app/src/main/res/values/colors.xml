@@ -15,4 +15,5 @@
     <color name="blue_light">#008CFF</color>
     <color name="blue_green_dark">#0A323D</color>
     <color name="blue_green_light">#0A3C46</color>
+    <color name="gray_200">#EEEEEE</color>
 </resources>

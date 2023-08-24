@@ -9,7 +9,7 @@
         android:id="@+id/menuButton"
         android:layout_width="40dp"
         android:layout_height="match_parent"
-        android:src="@drawable/menu_white"
+        android:src="@drawable/baseline_menu_24"
         android:contentDescription="@string/expandable_menu" />
 
     <ImageView
@@ -18,7 +18,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="right"
         android:layout_marginRight="15dp"
-        android:src="@drawable/info_white"
+        android:src="@drawable/baseline_info_24"
         android:contentDescription="@string/info_about_application" />
 
 </androidx.appcompat.widget.Toolbar>

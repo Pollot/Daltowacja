@@ -21,6 +21,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.core.Preview
 import androidx.camera.core.CameraSelector
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -329,10 +330,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun infoOnClick(infoButton: ImageView) {
         infoButton.setOnClickListener {
-            infoButton.setImageResource(R.drawable.info_white_selected)
             val builder = AlertDialog.Builder(this, R.style.CustomAlertDialogStyle)
-            val spannableString = SpannableString("Daltowacja")
-            spannableString.setSpan(ForegroundColorSpan(Color.WHITE),
+
+            // Get the colorOnPrimary from themes.xml
+            val typedValue = TypedValue()
+            theme.resolveAttribute(com.google.android.material.R.attr.colorOnPrimary, typedValue, true)
+            val colorOnPrimary = typedValue.data
+
+            val spannableString = SpannableString(TAG)
+
+            spannableString.setSpan(
+                ForegroundColorSpan(colorOnPrimary),
                 0,
                 spannableString.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -351,7 +359,7 @@ class MainActivity : AppCompatActivity() {
             builder.setCancelable(false)
             builder.setMessage(spannableString)
                 .setPositiveButton("OK") {
-                        _, _ -> infoButton.setImageResource(R.drawable.info_white)
+                        dialog, _ -> dialog.dismiss()
                 }
             builder.setView(R.layout.info_dialog)
             builder.create().show()
