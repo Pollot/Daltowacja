@@ -25,14 +25,14 @@ class SettingsActivity : AppCompatActivity() {
         // Toolbar buttons
         val menuButton = findViewById<ImageView>(R.id.menuButton)
         val infoButton = findViewById<ImageView>(R.id.infoButton)
+        ToolbarButtons.setupSidebarToggle(this, drawerLayout, menuButton)
+        ToolbarButtons.infoOnClick(this, infoButton)
 
         // Sidebar buttons
         val cameraButton = findViewById<TextView>(R.id.cameraButton)
         val settingsButton = findViewById<TextView>(R.id.settingsButton)
-
-        ToolbarButtons.setupSidebarToggle(this, drawerLayout, menuButton)
-        ToolbarButtons.infoOnClick(this, infoButton)
-        SidebarButtons.setClickListeners(this, cameraButton, settingsButton)
+        SidebarButtons.setCameraButton(this, cameraButton)
+        SidebarButtons.setSettingsButton(this, settingsButton)
 
         if (savedInstanceState == null) {
             supportFragmentManager

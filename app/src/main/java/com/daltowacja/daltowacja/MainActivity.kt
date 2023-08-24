@@ -54,16 +54,20 @@ class MainActivity : AppCompatActivity() {
         val cameraButton = findViewById<TextView>(R.id.cameraButton)
         val settingsButton = findViewById<TextView>(R.id.settingsButton)
 
+        // Views
         val previewView = findViewById<PreviewView>(R.id.viewFinder)
         val frozenFrame = findViewById<ImageView>(R.id.frozenFrame)
 
+        // Control buttons
         val frozenButton = findViewById<Button>(R.id.freezeButton)
         val analyzeColorButton = findViewById<Button>(R.id.analyzeColorButton)
 
+        // Color description
         val colorName = findViewById<TextView>(R.id.colorName)
         val colorDescription = findViewById<TextView>(R.id.colorDescription)
         val coloredRectangle = findViewById<RelativeLayout>(R.id.colorNameLayout)
 
+        // Pointer
         val pointerWhite = findViewById<ImageView>(R.id.pointerWhite)
         val pointerBlack = findViewById<ImageView>(R.id.pointerBlack)
         val pointerSizeSlider = findViewById<SeekBar>(R.id.pointerSizeSlider)
@@ -75,7 +79,8 @@ class MainActivity : AppCompatActivity() {
             changePointerSize(pointerSizeSlider, pointerWhite, pointerBlack)
             ToolbarButtons.setupSidebarToggle(this, drawerLayout, menuButton)
             ToolbarButtons.infoOnClick(this, infoButton)
-            SidebarButtons.setClickListeners(this, cameraButton, settingsButton)
+            SidebarButtons.setCameraButton(this, cameraButton)
+            SidebarButtons.setSettingsButton(this, settingsButton)
         } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
