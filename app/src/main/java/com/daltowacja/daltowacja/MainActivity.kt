@@ -16,6 +16,7 @@ import androidx.camera.core.Preview
 import androidx.camera.core.CameraSelector
 import android.util.Log
 import android.util.TypedValue
+import android.view.MotionEvent
 import android.view.View
 import android.widget.*
 import androidx.appcompat.widget.Toolbar
@@ -368,6 +369,23 @@ class MainActivity : AppCompatActivity() {
                 colorSelectionButton.visibility = View.GONE
                 crosshair.visibility = View.GONE
             }
+        }
+        // Update crosshair position on click
+        frozenFrame.setOnTouchListener { view, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    val x = event.x
+                    val y = event.y
+
+                    crosshair.x = x - crosshair.width / 2
+                    crosshair.y = y - crosshair.height / 2
+                }
+                MotionEvent.ACTION_UP -> {
+                    // Simulate a click event
+                    view.performClick()
+                }
+            }
+            true
         }
     }
 
