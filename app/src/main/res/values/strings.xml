@@ -5,6 +5,7 @@
     <string name="freeze">Freeze</string>
     <string name="unfreeze">Unfreeze</string>
     <string name="analyze">Analyze</string>
+    <string name="color_selection">Choose a color</string>
     <string name="camera">Camera</string>
     <string name="settings">Settings</string>
     <string name="contact">Contact us</string>
@@ -21,6 +22,7 @@
     <!-- Images -->
     <string name="frozen_image_description">Frozen image</string>
     <string name="center_pointer">Pointer on the center</string>
+    <string name="crosshair">Color selection crosshair</string>
     <string name="slider_description">Pointer\'s size</string>
     <string name="info_about_application">Button with information about application</string>
     <string name="expandable_menu">Expandable menu</string>
@@ -40,6 +42,5 @@
     <string name="advanced">Advanced (recommended)</string>
     <string name="colors_mode">Colors range</string>
     <string name="colors_options">Colors options</string>
-    <string name="color_selection">Choose a color</string>
 
 </resources>

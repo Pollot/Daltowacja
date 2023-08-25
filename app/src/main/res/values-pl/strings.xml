@@ -28,4 +28,6 @@
     <string name="advanced">Rozrzeszone (zalecane)</string>
     <string name="colors_mode">Ilość kolorów</string>
     <string name="colors_options">Opcje kolorów</string>
+    <string name="color_selection">Wybierz kolor</string>
+    <string name="crosshair">Celownik do wyboru koloru</string>
 </resources>

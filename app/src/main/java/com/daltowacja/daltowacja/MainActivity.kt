@@ -102,11 +102,14 @@ class MainActivity : AppCompatActivity() {
         val pointerBlack = findViewById<ImageView>(R.id.pointerBlack)
         val pointerSizeSlider = findViewById<SeekBar>(R.id.pointerSizeSlider)
 
+        val crosshair = findViewById<ImageView>(R.id.crosshair)
+
         if (allPermissionsGranted()) {
             startCamera()
-            setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton, colorSelectionButton)
+            setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton, colorSelectionButton, crosshair)
             captureFrame(previewView, colorName, colorDescription, coloredRectangle, analyzeColorButton)
             changePointerSize(pointerSizeSlider, pointerWhite, pointerBlack)
+
             ToolbarButtons.setupSidebarToggle(this, drawerLayout, menuButton)
             ToolbarButtons.infoOnClick(this, infoButton)
             SidebarButtons.setCameraButton(this, cameraButton)
@@ -347,7 +350,8 @@ class MainActivity : AppCompatActivity() {
     // frozenButton functionality
     @SuppressLint("SetTextI18n")
     private fun setPreviewViewFreezeOnClick(previewView: PreviewView, frozenFrame: ImageView,
-                                            freezeButton: Button, colorSelectionButton: Button) {
+                                            freezeButton: Button, colorSelectionButton: Button,
+                                            crosshair: ImageView) {
         freezeButton.setOnClickListener {
             if (previewView.visibility == View.VISIBLE) {
                 freezeButton.text = getString(R.string.unfreeze)
@@ -356,11 +360,13 @@ class MainActivity : AppCompatActivity() {
                 previewView.visibility = View.GONE
                 frozenFrame.visibility = View.VISIBLE
                 colorSelectionButton.visibility = View.VISIBLE
+                crosshair.visibility = View.VISIBLE
             } else {
                 freezeButton.text = getString(R.string.freeze)
                 previewView.visibility = View.VISIBLE
                 frozenFrame.visibility = View.GONE
                 colorSelectionButton.visibility = View.GONE
+                crosshair.visibility = View.GONE
             }
         }
     }
@@ -371,7 +377,8 @@ class MainActivity : AppCompatActivity() {
                 // This method will be called whenever the slider value changes
                 // You can use the "progress" parameter to get the current slider value
                 // and update your UI or perform any other actions as needed
-                currentPointerSize = (pointerSizeSlider.progress+9)*2 // 9 = 8 for stroke + 1 to avoid 0
+                currentPointerSize =
+                    (pointerSizeSlider.progress + 9) * 2 // 9 = 8 for stroke + 1 to avoid 0
                 val paramsW = pointerWhite.layoutParams
                 paramsW.width = currentPointerSize
                 paramsW.height = currentPointerSize
@@ -392,12 +399,6 @@ class MainActivity : AppCompatActivity() {
                 // This method will be called when the user stops dragging the slider
             }
         })
-    }
-
-    // Called when an activity is about to be destroyed
-    override fun onDestroy() {
-        super.onDestroy()
-        cameraExecutor.shutdown()
     }
 
     // Analyzer of the average preview luminosity
@@ -441,6 +442,12 @@ class MainActivity : AppCompatActivity() {
 
             image.close()
         }
+    }
+
+    // Called when an activity is about to be destroyed
+    override fun onDestroy() {
+        super.onDestroy()
+        cameraExecutor.shutdown()
     }
 
     // Basic static variables
