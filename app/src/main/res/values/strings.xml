@@ -40,5 +40,6 @@
     <string name="advanced">Advanced (recommended)</string>
     <string name="colors_mode">Colors range</string>
     <string name="colors_options">Colors options</string>
+    <string name="color_selection">Choose a color</string>
 
 </resources>

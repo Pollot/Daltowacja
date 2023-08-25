@@ -90,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         // Control buttons
         val frozenButton = findViewById<Button>(R.id.freezeButton)
         val analyzeColorButton = findViewById<Button>(R.id.analyzeColorButton)
+        val colorSelectionButton = findViewById<Button>(R.id.colorSelectionButton)
 
         // Color description
         val colorName = findViewById<TextView>(R.id.colorName)
@@ -103,7 +104,7 @@ class MainActivity : AppCompatActivity() {
 
         if (allPermissionsGranted()) {
             startCamera()
-            setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton)
+            setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton, colorSelectionButton)
             captureFrame(previewView, colorName, colorDescription, coloredRectangle, analyzeColorButton)
             changePointerSize(pointerSizeSlider, pointerWhite, pointerBlack)
             ToolbarButtons.setupSidebarToggle(this, drawerLayout, menuButton)
@@ -345,18 +346,21 @@ class MainActivity : AppCompatActivity() {
 
     // frozenButton functionality
     @SuppressLint("SetTextI18n")
-    private fun setPreviewViewFreezeOnClick(previewView: PreviewView, frozenFrame: ImageView, button: Button) {
-        button.setOnClickListener {
+    private fun setPreviewViewFreezeOnClick(previewView: PreviewView, frozenFrame: ImageView,
+                                            freezeButton: Button, colorSelectionButton: Button) {
+        freezeButton.setOnClickListener {
             if (previewView.visibility == View.VISIBLE) {
-                button.text = getString(R.string.unfreeze)
+                freezeButton.text = getString(R.string.unfreeze)
                 val bitmap = previewView.bitmap
                 frozenFrame.setImageBitmap(bitmap)
                 previewView.visibility = View.GONE
                 frozenFrame.visibility = View.VISIBLE
+                colorSelectionButton.visibility = View.VISIBLE
             } else {
-                button.text = getString(R.string.freeze)
+                freezeButton.text = getString(R.string.freeze)
                 previewView.visibility = View.VISIBLE
                 frozenFrame.visibility = View.GONE
+                colorSelectionButton.visibility = View.GONE
             }
         }
     }
