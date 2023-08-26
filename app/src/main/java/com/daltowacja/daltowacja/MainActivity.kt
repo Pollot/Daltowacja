@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var cameraExecutor: ExecutorService
 
-    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         // Apply selected theme
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -254,7 +253,6 @@ class MainActivity : AppCompatActivity() {
         return nameDesc
     }
 
-    @SuppressLint("SetTextI18n")
     private fun captureFrame(previewView: PreviewView, name: TextView, description: TextView, coloredRectangle: RelativeLayout, button: Button) {
         button.setOnClickListener {
             // Capture the current frame as a Bitmap
@@ -349,7 +347,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     // frozenButton functionality
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("ClickableViewAccessibility")
     private fun setPreviewViewFreezeOnClick(previewView: PreviewView, frozenFrame: ImageView,
                                             freezeButton: Button, colorSelectionButton: Button,
                                             crosshair: ImageView) {
