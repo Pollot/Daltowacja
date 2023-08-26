@@ -6,6 +6,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.*
+import android.graphics.drawable.BitmapDrawable
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.daltowacja.daltowacja.databinding.ActivityMainBinding
@@ -107,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         if (allPermissionsGranted()) {
             startCamera()
             setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton, colorSelectionButton, crosshair)
-            captureFrame(previewView, colorName, colorDescription, coloredRectangle, analyzeColorButton)
+            captureFrame(previewView, frozenFrame, crosshair, colorName, colorDescription, coloredRectangle, analyzeColorButton)
             changePointerSize(pointerSizeSlider, pointerWhite, pointerBlack)
 
             ToolbarButtons.setupSidebarToggle(this, drawerLayout, menuButton)
@@ -253,65 +254,106 @@ class MainActivity : AppCompatActivity() {
         return nameDesc
     }
 
-    private fun captureFrame(previewView: PreviewView, name: TextView, description: TextView, coloredRectangle: RelativeLayout, button: Button) {
+    private fun captureFrame(previewView: PreviewView, frozenFrame: ImageView, crosshair: ImageView,
+                             name: TextView, description: TextView,
+                             coloredRectangle: RelativeLayout, button: Button) {
         button.setOnClickListener {
-            // Capture the current frame as a Bitmap
-            val image = previewView.bitmap
+            if (frozenFrame.visibility == View.GONE) {
+                // Capture the current frame as a Bitmap
+                val image = previewView.bitmap
 
-            val middleX = image!!.width / 2
-            val middleY = image.height / 2
+                val middleX = image!!.width / 2
+                val middleY = image.height / 2
 
-            val sliderPosition = findViewById<SeekBar>(R.id.pointerSizeSlider)
-            val searchAreaSize = (sliderPosition.progress)+1 // Add ceil function instead of +1 for 0 value
+                val sliderPosition = findViewById<SeekBar>(R.id.pointerSizeSlider)
+                val searchAreaSize =
+                    (sliderPosition.progress) + 1 // Add ceil function instead of +1 for 0 value
 
-            // Log.d(TAG, "Area size: $searchAreaSize")
+                // Log.d(TAG, "Area size: $searchAreaSize")
 
-            // Define a rectangle that covers the middle area, size dynamically set by Slider
-            val rect = Rect(middleX - searchAreaSize, middleY - searchAreaSize, middleX + searchAreaSize, middleY + searchAreaSize)
+                // Define a rectangle that covers the middle area, size dynamically set by Slider
+                val rect = Rect(
+                    middleX - searchAreaSize,
+                    middleY - searchAreaSize,
+                    middleX + searchAreaSize,
+                    middleY + searchAreaSize
+                )
 
-            // Log.d(TAG, "Rectangle: $rect")
+                // Log.d(TAG, "Rectangle: $rect")
 
-            // Calculate the average color of the middle area
-            var red = 0
-            var green = 0
-            var blue = 0
-            var count = 0
+                // Calculate the average color of the middle area
+                var red = 0
+                var green = 0
+                var blue = 0
+                var count = 0
 
-            for (y in rect.top until rect.bottom) {
-                for (x in rect.left until rect.right) {
-                    val pixel = image.getPixel(x, y)
-                    red += Color.red(pixel)
-                    green += Color.green(pixel)
-                    blue += Color.blue(pixel)
-                    count++
+                for (y in rect.top until rect.bottom) {
+                    for (x in rect.left until rect.right) {
+                        val pixel = image.getPixel(x, y)
+                        red += Color.red(pixel)
+                        green += Color.green(pixel)
+                        blue += Color.blue(pixel)
+                        count++
+                    }
                 }
+
+                if (count > 0) {
+                    red /= count
+                    green /= count
+                    blue /= count
+                }
+
+                // Set the text to the average color
+                red = red and 0xFF
+                green = green and 0xFF
+                blue = blue and 0xFF
+
+                val nameDesc = getClosestColorNameAndDescription(intArrayOf(red, green, blue))
+                name.text = nameDesc[0]
+                description.text = nameDesc[1]
+
+                if ((red + green + blue) > 383) {
+                    name.setTextColor(Color.BLACK)
+                    description.setTextColor(Color.BLACK)
+                } else {
+                    name.setTextColor(Color.WHITE)
+                    description.setTextColor(Color.WHITE)
+                }
+
+                //translates rgb to hsv then to hsv int and changes color of colorRectangle
+                coloredRectangle.setBackgroundColor(Color.HSVToColor(rgbToHsv(red, green, blue)))
             }
+            else {
+                // Get the bitmap from the frozenFrame ImageView
+                val bitmap = (frozenFrame.drawable as BitmapDrawable).bitmap
 
-            if (count > 0) {
-                red /= count
-                green /= count
-                blue /= count
+                // Calculate the coordinates of the crosshair's center in the frozenFrame
+                val crosshairX = crosshair.x.toInt() + crosshair.width / 2
+                val crosshairY = crosshair.y.toInt() + crosshair.height / 2
+
+                // Calculate the color at the crosshair's position
+                val pixel = bitmap.getPixel(crosshairX, crosshairY)
+
+                val red = Color.red(pixel)
+                val green = Color.green(pixel)
+                val blue = Color.blue(pixel)
+
+                // Set the text to the color at the crosshair's position
+                val nameDesc = getClosestColorNameAndDescription(intArrayOf(red, green, blue))
+                name.text = nameDesc[0]
+                description.text = nameDesc[1]
+
+                if ((red + green + blue) > 383) {
+                    name.setTextColor(Color.BLACK)
+                    description.setTextColor(Color.BLACK)
+                } else {
+                    name.setTextColor(Color.WHITE)
+                    description.setTextColor(Color.WHITE)
+                }
+
+                //translates rgb to hsv then to hsv int and changes color of colorRectangle
+                coloredRectangle.setBackgroundColor(Color.HSVToColor(rgbToHsv(red, green, blue)))
             }
-
-            // Set the text to the average color
-            red = red and 0xFF
-            green = green and 0xFF
-            blue = blue and 0xFF
-
-            val nameDesc = getClosestColorNameAndDescription(intArrayOf(red, green, blue))
-            name.text = nameDesc[0]
-            description.text = nameDesc[1]
-
-            if((red+green+blue)>383) {
-                name.setTextColor(Color.BLACK)
-                description.setTextColor(Color.BLACK)
-            } else {
-                name.setTextColor(Color.WHITE)
-                description.setTextColor(Color.WHITE)
-            }
-
-            //translates rgb to hsv then to hsv int and changes color of colorRectangle
-            coloredRectangle.setBackgroundColor(Color.HSVToColor(rgbToHsv(red, green, blue)))
         }
     }
 
