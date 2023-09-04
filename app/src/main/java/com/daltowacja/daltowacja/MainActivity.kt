@@ -108,7 +108,8 @@ class MainActivity : AppCompatActivity() {
         if (allPermissionsGranted()) {
             startCamera()
             setPreviewViewFreezeOnClick(previewView, frozenFrame, frozenButton, colorSelectionButton, crosshair)
-            captureFrame(previewView, frozenFrame, crosshair, colorName, colorDescription, coloredRectangle, analyzeColorButton)
+            captureFrame(analyzeColorButton, previewView, frozenFrame, crosshair, colorName, colorDescription, coloredRectangle)
+            captureFrame(colorSelectionButton, previewView, frozenFrame, crosshair, colorName, colorDescription, coloredRectangle)
             changePointerSize(pointerSizeSlider, pointerWhite, pointerBlack)
 
             ToolbarButtons.setupSidebarToggle(this, drawerLayout, menuButton)
@@ -254,9 +255,13 @@ class MainActivity : AppCompatActivity() {
         return nameDesc
     }
 
-    private fun captureFrame(previewView: PreviewView, frozenFrame: ImageView, crosshair: ImageView,
-                             name: TextView, description: TextView,
-                             coloredRectangle: RelativeLayout, button: Button) {
+    private fun captureFrame(button: Button,
+                             previewView: PreviewView,
+                             frozenFrame: ImageView,
+                             crosshair: ImageView,
+                             name: TextView,
+                             description: TextView,
+                             coloredRectangle: RelativeLayout) {
         button.setOnClickListener {
             if (frozenFrame.visibility == View.GONE) {
                 // Capture the current frame as a Bitmap
