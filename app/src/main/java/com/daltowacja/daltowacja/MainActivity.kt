@@ -371,7 +371,46 @@ class MainActivity : AppCompatActivity() {
                 coloredRectangle.setBackgroundColor(Color.HSVToColor(rgbToHsv(red, green, blue)))
 
                 if (drawNetEnabled) {
-                    // Net drawing code
+                    val netBitmap = Bitmap.createBitmap(bitmap.width, bitmap.height, Bitmap.Config.ARGB_8888)
+
+                    // Draw the original frozen frame onto the netBitmap
+                    val canvas = Canvas(netBitmap)
+                    canvas.drawBitmap(bitmap, 0f, 0f, null)
+
+                    val netSpacing = 5
+
+                    val netColor = Color.argb(255, 0, 0, 0)
+
+                    // Draw horizontal lines over the same color as the crosshair
+                    for (y in 0 until netBitmap.height step netSpacing) {
+                        for (x in 0 until netBitmap.width) {
+                            val pixelAtPosition = bitmap.getPixel(x, y)
+                            val pixelRed = Color.red(pixelAtPosition)
+                            val pixelGreen = Color.green(pixelAtPosition)
+                            val pixelBlue = Color.blue(pixelAtPosition)
+
+                            if (pixelRed == red && pixelGreen == green && pixelBlue == blue) {
+                                netBitmap.setPixel(x, y, netColor)
+                            }
+                        }
+                    }
+
+                    // Draw vertical lines over the same color as the crosshair
+                    for (x in 0 until netBitmap.width step netSpacing) {
+                        for (y in 0 until netBitmap.height) {
+                            val pixelAtPosition = bitmap.getPixel(x, y)
+                            val pixelRed = Color.red(pixelAtPosition)
+                            val pixelGreen = Color.green(pixelAtPosition)
+                            val pixelBlue = Color.blue(pixelAtPosition)
+
+                            if (pixelRed == red && pixelGreen == green && pixelBlue == blue) {
+                                netBitmap.setPixel(x, y, netColor)
+                            }
+                        }
+                    }
+
+                    // Set the netBitmap as the content of the frozenFrame ImageView
+                    frozenFrame.setImageBitmap(netBitmap)
                 }
             }
         }
