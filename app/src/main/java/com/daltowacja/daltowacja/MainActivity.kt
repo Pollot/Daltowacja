@@ -30,6 +30,7 @@ import kotlin.math.sqrt
 
 typealias LumaListener = (luma: Double) -> Unit
 var currentPointerSize = 15
+private var drawNetEnabled = false
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
@@ -263,6 +264,16 @@ class MainActivity : AppCompatActivity() {
                              description: TextView,
                              coloredRectangle: RelativeLayout) {
         button.setOnClickListener {
+            if (button == findViewById(R.id.colorSelectionButton)) {
+                // Enable drawing the net only for colorSelectionButton
+                drawNetEnabled = true
+            }
+
+            if (button == findViewById(R.id.freezeButton)) {
+                // Disable drawing the net when the freeze button is clicked
+                drawNetEnabled = false
+            }
+
             if (frozenFrame.visibility == View.GONE) {
                 // Capture the current frame as a Bitmap
                 val image = previewView.bitmap
@@ -358,6 +369,10 @@ class MainActivity : AppCompatActivity() {
 
                 //translates rgb to hsv then to hsv int and changes color of colorRectangle
                 coloredRectangle.setBackgroundColor(Color.HSVToColor(rgbToHsv(red, green, blue)))
+
+                if (drawNetEnabled) {
+                    // Net drawing code
+                }
             }
         }
     }
