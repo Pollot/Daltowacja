@@ -378,8 +378,8 @@ class MainActivity : AppCompatActivity() {
                     canvas.drawBitmap(bitmap, 0f, 0f, null)
 
                     val netSpacing = 5
-
                     val netColor = Color.argb(255, 0, 0, 0)
+                    val tolerance = 50.0
 
                     // Draw horizontal lines over the same color as the crosshair
                     for (y in 0 until netBitmap.height step netSpacing) {
@@ -389,7 +389,13 @@ class MainActivity : AppCompatActivity() {
                             val pixelGreen = Color.green(pixelAtPosition)
                             val pixelBlue = Color.blue(pixelAtPosition)
 
-                            if (pixelRed == red && pixelGreen == green && pixelBlue == blue) {
+                            // Calculate the Euclidean distance between the colors
+                            val distance = getEuclideanDistance(
+                                intArrayOf(red, green, blue),  // Crosshair's colors
+                                intArrayOf(pixelRed, pixelGreen, pixelBlue)
+                            )
+
+                            if (distance <= tolerance) {
                                 netBitmap.setPixel(x, y, netColor)
                             }
                         }
@@ -403,7 +409,13 @@ class MainActivity : AppCompatActivity() {
                             val pixelGreen = Color.green(pixelAtPosition)
                             val pixelBlue = Color.blue(pixelAtPosition)
 
-                            if (pixelRed == red && pixelGreen == green && pixelBlue == blue) {
+                            // Calculate the Euclidean distance between the colors
+                            val distance = getEuclideanDistance(
+                                intArrayOf(red, green, blue),  // Crosshair's colors
+                                intArrayOf(pixelRed, pixelGreen, pixelBlue)
+                            )
+
+                            if (distance <= tolerance) {
                                 netBitmap.setPixel(x, y, netColor)
                             }
                         }
