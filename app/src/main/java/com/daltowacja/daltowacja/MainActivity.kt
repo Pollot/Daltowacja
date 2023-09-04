@@ -377,8 +377,21 @@ class MainActivity : AppCompatActivity() {
                     val canvas = Canvas(netBitmap)
                     canvas.drawBitmap(bitmap, 0f, 0f, null)
 
+                    val netColor: Int
+
+                    // Calculate selected color brightness
+                    // It's copied from Chat GPT, I have no idea where this values come from
+                    val brightness = (0.299 * red + 0.587 * green + 0.114 * blue) / 255.0
+
+                    netColor = if (brightness < 0.5) {
+                        // Dark color, set net color to white
+                        Color.WHITE
+                    } else {
+                        // Light color, set net color to black
+                        Color.BLACK
+                    }
+
                     val netSpacing = 5
-                    val netColor = Color.argb(255, 0, 0, 0)
                     val tolerance = 50.0
 
                     // Draw horizontal lines over the same color as the crosshair
