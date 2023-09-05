@@ -31,6 +31,7 @@ import kotlin.math.sqrt
 typealias LumaListener = (luma: Double) -> Unit
 var currentPointerSize = 15
 private var drawNetEnabled = false
+private var originalFrozenFrameBitmap: Bitmap? = null
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityMainBinding
@@ -375,7 +376,7 @@ class MainActivity : AppCompatActivity() {
 
                     // Draw the original frozen frame onto the netBitmap
                     val canvas = Canvas(netBitmap)
-                    canvas.drawBitmap(bitmap, 0f, 0f, null)
+                    canvas.drawBitmap(originalFrozenFrameBitmap!!, 0f, 0f, null)
 
                     val netColor: Int
 
@@ -480,8 +481,10 @@ class MainActivity : AppCompatActivity() {
         freezeButton.setOnClickListener {
             if (previewView.visibility == View.VISIBLE) {
                 freezeButton.text = getString(R.string.unfreeze)
-                val bitmap = previewView.bitmap
-                frozenFrame.setImageBitmap(bitmap)
+
+                originalFrozenFrameBitmap = previewView.bitmap
+
+                frozenFrame.setImageBitmap(originalFrozenFrameBitmap)
                 previewView.visibility = View.GONE
                 frozenFrame.visibility = View.VISIBLE
                 colorSelectionButton.visibility = View.VISIBLE
