@@ -10,7 +10,7 @@ val advancedColors_en = mapOf(
     intArrayOf(255, 3, 62) to listOf("(eng) American Różany", "Jaskrawoczerwony"),
     intArrayOf(153, 102, 204) to listOf("Ametyst", "Umiarkowanie fioletowy"),
     intArrayOf(164, 198, 57) to listOf("Androidowa Zieleń", "Umiarkowanie żółta zieleń"),
-    intArrayOf(242, 243, 244) to listOf("Anti-flash White", "Jasnoszaroniebieski"),
+    intArrayOf(242, 243, 244) to listOf("(eng) Anti-flash White", "Jasnoszaroniebieski"),
     intArrayOf(205, 149, 117) to listOf("Antyczna Miedź", "Lekko desaturowany pomarańczowy"),
     intArrayOf(145, 92, 131) to listOf("Antyczna Fuksja", "Mocno desaturowany ciemny róż"),
     intArrayOf(250, 235, 215) to listOf("Antyczna Biel", "Jasnoszaropomarańczowy"),
