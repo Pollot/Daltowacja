@@ -30,4 +30,8 @@
     <string name="colors_options">Opcje kolorów</string>
     <string name="color_selection">Wybierz kolor</string>
     <string name="crosshair">Celownik do wyboru koloru</string>
+    <string name="language">Język</string>
+    <string name="language_options">Wybierz język</string>
+    <string name="polish">Polski</string>
+    <string name="english">Angielski</string>
 </resources>

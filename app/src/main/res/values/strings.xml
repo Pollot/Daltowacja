@@ -43,4 +43,10 @@
     <string name="colors_mode">Colors range</string>
     <string name="colors_options">Colors options</string>
 
+    <!-- Language selection -->
+    <string name="language">Language</string>
+    <string name="language_options">Select language</string>
+    <string name="polish">Polish</string>
+    <string name="english">English</string>
+
 </resources>
