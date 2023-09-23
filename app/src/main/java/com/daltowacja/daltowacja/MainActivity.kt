@@ -270,8 +270,8 @@ class MainActivity : AppCompatActivity() {
                 drawNetEnabled = true
             }
 
-            if (button == findViewById(R.id.freezeButton)) {
-                // Disable drawing the net when the freeze button is clicked
+            if (button == findViewById(R.id.analyzeColorButton)) {
+                // Disable drawing the net when the analyzeColorButton is clicked
                 drawNetEnabled = false
             }
 
