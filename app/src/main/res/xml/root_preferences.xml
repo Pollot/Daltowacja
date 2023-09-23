@@ -12,18 +12,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/colors_options">
-
-        <ListPreference
-            app:defaultValue="advanced"
-            app:entries="@array/colors_mode_entries"
-            app:entryValues="@array/colors_mode_values"
-            app:key="colors_mode"
-            app:title="@string/colors_mode"
-            app:useSimpleSummaryProvider="true" />
-
-    </PreferenceCategory>
-
     <PreferenceCategory app:title="@string/language">
 
         <ListPreference
@@ -32,6 +20,18 @@
             app:entryValues="@array/language_options_values"
             app:key="language"
             app:title="@string/language"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/colors_options">
+
+        <ListPreference
+            app:defaultValue="advanced"
+            app:entries="@array/colors_mode_entries"
+            app:entryValues="@array/colors_mode_values"
+            app:key="colors_mode"
+            app:title="@string/colors_mode"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
