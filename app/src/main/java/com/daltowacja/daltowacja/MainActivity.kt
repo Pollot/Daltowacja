@@ -1,31 +1,31 @@
 package com.daltowacja.daltowacja
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import com.daltowacja.daltowacja.databinding.ActivityMainBinding
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.core.Preview
-import androidx.camera.core.CameraSelector
+import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
 import android.view.MotionEvent
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.preference.PreferenceManager
+import com.daltowacja.daltowacja.databinding.ActivityMainBinding
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import kotlin.math.sqrt
 
 typealias LumaListener = (luma: Double) -> Unit
@@ -40,9 +40,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Apply selected theme
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        val selectedTheme = sharedPreferences.getString("theme", "auto") ?: "auto"
+        val themePreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val selectedTheme = themePreferences.getString("theme", "auto") ?: "auto"
         ThemeManager.applyTheme(selectedTheme)
+
+        // Apply selected language
+        val languagePreferences = PreferenceManager.getDefaultSharedPreferences(this)
+        val selectedLanguage = languagePreferences.getString("language",
+            resources.configuration.locales[0].language) ?: "auto"
+        LanguageManager.setAppLanguage(this, selectedLanguage)
 
         super.onCreate(savedInstanceState)
         viewBinding = ActivityMainBinding.inflate(layoutInflater)

@@ -77,18 +77,32 @@ class SettingsActivity : AppCompatActivity() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
 
-            // Get the preference instance for the theme preference
             val themePreference = findPreference<Preference>("theme")
+
+            val languagePreference = findPreference<Preference>("language")
 
             // Set a listener to handle theme preference changes
             themePreference?.setOnPreferenceChangeListener { _, newValue ->
                 if (newValue is String) {
 
-                    val context = requireContext().applicationContext // Use this to get a non-null context
-                    val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-                    sharedPreferences.edit().putString("theme", newValue).apply()
-
                     ThemeManager.applyTheme(newValue)
+
+                    true
+                } else {
+                    false
+                }
+            }
+
+            // Set a listener to handle theme language changes
+            languagePreference?.setOnPreferenceChangeListener { _, newValue ->
+                if (newValue is String) {
+
+                    val context = requireContext()
+
+                    LanguageManager.setAppLanguage(context, newValue)
+
+                    // Recreate the activity to apply the new language
+                    requireActivity().recreate()
 
                     true
                 } else {
