@@ -10,7 +10,7 @@
     <string name="info_about_application">Przycisk z informacjami o aplikacji</string>
     <string name="expandable_menu">Menu</string>
     <string name="settings">Ustawienia</string>
-    <string name="info_description">Nasza aplikacja umożliwia rozróżnianie kolorów poprzez analizowanie koloru na środku obrazu oraz wyodrębnianie tylko jednego wybranego koloru.</string>
+    <string name="info_description">Nasza aplikacja umożliwia rozróżnianie kolorów poprzez analizę koloru na środku ekranu oraz możliwość wyodrębnianie wybranego koloru po zamrożeniu widoku.</string>
     <string name="dark_theme">Ciemny</string>
     <string name="light_theme">Jasny</string>
     <string name="auto">Automytyczny</string>

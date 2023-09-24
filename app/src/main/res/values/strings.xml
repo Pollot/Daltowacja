@@ -13,7 +13,7 @@
     <!-- Descriptions -->
     <string name="color_name">Color name</string>
     <string name="color_description">Color description</string>
-    <string name="info_description">Our application enables color differentiation by analyzing the color in the center of the image and extracting only the chosen color.</string>
+    <string name="info_description">Our application allows distinguishing colors by analyzing the color in the center of the screen and the ability to extract a selected color after freezing the view.</string>
 
     <!-- Toasts -->
     <string name="no_email_app">No email app found</string>
