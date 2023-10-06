@@ -205,7 +205,10 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == REQUEST_CODE_PERMISSIONS) {
             if (allPermissionsGranted()) {
-                startCamera()
+                // Restart activity
+                val intent = intent
+                finish()
+                startActivity(intent)
             } else {
                 val toastMessage = getString(R.string.permissions_not_granted)
                 Toast.makeText(this, toastMessage, Toast.LENGTH_SHORT).show()
