@@ -158,7 +158,7 @@ val advancedColors_pl = mapOf(
     intArrayOf(1, 50, 32) to listOf("Ciemnozielony", "Bardzo ciemny cyjan - limonkowo zielony"),
     intArrayOf(26, 36, 33) to listOf("Zieleń Ciemnej Dżungli", "Bardzo ciemny cyjan - limonkowo zielony"),
     intArrayOf(189, 183, 107) to listOf("Ciemny Khaki", "Lekko desaturowany żółty"),
-    intArrayOf(72, 60, 50) to listOf("Ciemna Lawa", "Bardzo ciemny szarawopomarańczowy Bardzo ciemny szaropomarańczowy"),
+    intArrayOf(72, 60, 50) to listOf("Ciemna Lawa", "Bardzo ciemny szarawopomarańczowy"),
     intArrayOf(115, 79, 150) to listOf("Ciemna Lawenda", "Ciemny umiarkowanie fiołkowy"),
     intArrayOf(139, 0, 139) to listOf("Ciemna Magenta", "Ciemna magenta"),
     intArrayOf(85, 107, 47) to listOf("Ciemny Oliwkowo Zielony", "Bardzo ciemny desaturowany zielony"),
