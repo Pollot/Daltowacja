@@ -79,6 +79,18 @@
             android:textColor="?colorOnPrimary"
             android:focusable="true" />
 
+        <TextView
+            android:id="@+id/donateButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            app:drawableLeftCompat="@drawable/baseline_donate"
+            android:drawablePadding="16dp"
+            android:text="@string/donate"
+            android:textSize="24sp"
+            android:textColor="?colorOnPrimary"
+            android:focusable="true" />
+
 
     </LinearLayout>
 

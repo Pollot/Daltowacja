@@ -40,4 +40,12 @@ object SidebarButtons {
             }
         }
     }
+
+    fun setDonateButton(context: Context, donateButton: TextView) {
+        donateButton.setOnClickListener {
+            val url = "https://www.buymeacoffee.com/daltowacja"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            context.startActivity(intent)
+        }
+    }
 }

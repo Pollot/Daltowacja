@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity() {
         val cameraButton = findViewById<TextView>(R.id.cameraButton)
         val settingsButton = findViewById<TextView>(R.id.settingsButton)
         val contactButton = findViewById<TextView>(R.id.contactButton)
+        val donateButton = findViewById<TextView>(R.id.donateButton)
 
         // Set colorPrimaryVariant as cameraButton background
         val typedValue = TypedValue()
@@ -125,6 +126,7 @@ class MainActivity : AppCompatActivity() {
             SidebarButtons.setCameraButton(this, cameraButton)
             SidebarButtons.setSettingsButton(this, settingsButton)
             SidebarButtons.setContactButton(this, contactButton)
+            SidebarButtons.setDonateButton(this, donateButton)
         } else {
             ActivityCompat.requestPermissions(
                 this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
