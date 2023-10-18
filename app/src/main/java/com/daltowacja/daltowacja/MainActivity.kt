@@ -331,11 +331,13 @@ class MainActivity : AppCompatActivity() {
                     blue /= count
                 }
 
-                // Set the text to the average color
                 red = red and 0xFF
                 green = green and 0xFF
                 blue = blue and 0xFF
 
+                // Log.d(TAG, "Color values: $red, $green, $blue")
+
+                // Set the text to the average color
                 val nameDesc = getClosestColorNameAndDescription(intArrayOf(red, green, blue))
                 name.text = nameDesc[0]
                 description.text = nameDesc[1]
@@ -365,6 +367,8 @@ class MainActivity : AppCompatActivity() {
                 val red = Color.red(pixel)
                 val green = Color.green(pixel)
                 val blue = Color.blue(pixel)
+
+                // Log.d(TAG, "Color values: $red, $green, $blue")
 
                 // Set the text to the color at the crosshair's position
                 val nameDesc = getClosestColorNameAndDescription(intArrayOf(red, green, blue))
