@@ -33,16 +33,18 @@ class SettingsActivity : AppCompatActivity() {
         // Toolbar buttons
         val menuButton = findViewById<ImageView>(R.id.menuButton)
         val infoButton = findViewById<ImageView>(R.id.infoButton)
-        val contactButton = findViewById<TextView>(R.id.contactButton)
         ToolbarButtons.setupSidebarToggle(this, drawerLayout, menuButton)
         ToolbarButtons.infoOnClick(this, infoButton)
-        SidebarButtons.setContactButton(this, contactButton)
 
         // Sidebar buttons
         val cameraButton = findViewById<TextView>(R.id.cameraButton)
         val settingsButton = findViewById<TextView>(R.id.settingsButton)
+        val contactButton = findViewById<TextView>(R.id.contactButton)
+        val donateButton = findViewById<TextView>(R.id.donateButton)
         SidebarButtons.setCameraButton(this, cameraButton)
         SidebarButtons.setSettingsButton(this, settingsButton)
+        SidebarButtons.setContactButton(this, contactButton)
+        SidebarButtons.setDonateButton(this, donateButton)
 
         // Set colorPrimaryVariant as settingsButton background
         val typedValue = TypedValue()
